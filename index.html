@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroFocus - Boost Your Productivity</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            /* Dark Mode Variables - Matching NeuroFocus App */
+            --bg-gradient-start: #0d1117; /* Deep navy */
+            --bg-gradient-mid1: #121a24; /* Slightly lighter navy */
+            --bg-gradient-mid2: #172331; /* Another step lighter */
+            --bg-gradient-end: #1c2e3f; /* Blending */
+            --text-color-primary: #e2e8f0;
+            --text-color-secondary: #f8fafc;
+            --card-bg: rgba(31, 41, 55, 0.9); /* Slightly lighter dark gray for cards */
+            --card-border: rgba(144, 205, 244, 0.2);
+            --heading-color: #90cdf4;
+
+            /* Button Colors - Consistent with App */
+            --button-primary-bg: #3182ce;
+            --button-primary-hover-bg: #2b6cb0;
+            --button-primary-border: rgba(49, 130, 206, 0.4);
+
+            --icon-color: #e2e8f0;
+            --footer-bg: rgba(45, 55, 72, 0.5);
+            --footer-border: rgba(144, 205, 244, 0.2);
+        }
+
+        body.light-mode {
+            /* Light Mode Variables - Matching NeuroFocus App */
+            --bg-gradient-start: #f5f7fa; /* Very light gray/soft white */
+            --bg-gradient-mid1: #edf0f5; /* Slightly darker for gradient effect */
+            --bg-gradient-mid2: #e0e4eb; /* Another step darker */
+            --bg-gradient-end: #d1d6e0; /* Blending */
+            --text-color-primary: #2d3748;
+            --text-color-secondary: #4a5568;
+            --card-bg: rgba(255, 255, 255, 0.9); /* White cards */
+            --card-border: rgba(0, 0, 0, 0.1);
+            --heading-color: #3182ce;
+
+            /* Button Colors - Consistent with App */
+            --button-primary-bg: #3182ce;
+            --button-primary-hover-bg: #2b6cb0;
+            --button-primary-border: rgba(49, 130, 206, 0.4);
+
+            --icon-color: #2d3748;
+            --footer-bg: rgba(255, 255, 255, 0.7);
+            --footer-border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Changed to Poppins */
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid1), var(--bg-gradient-mid2), var(--bg-gradient-end));
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: var(--text-color-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .navbar {
+            background-color: rgba(45, 55, 72, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(144, 205, 244, 0.2);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        body.light-mode .navbar {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--heading-color) !important;
+            font-weight: 700;
+            font-size: 2rem; /* Slightly larger */
+            letter-spacing: 0.03em; /* Added letter-spacing */
+        }
+
+        .theme-icon-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .theme-icon {
+            color: var(--icon-color);
+            transition: color 0.3s ease;
+            margin: 0 0.25rem;
+        }
+
+        .hero-section {
+            text-align: center; /* Ensures text content is centered */
+            padding: 4rem 1rem;
+            max-width: 900px;
+            margin: 2rem auto 0 auto; /* Centers the block horizontally */
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .btn-main {
+            background-color: var(--button-primary-bg);
+            color: white; /* Consistent white text */
+            padding: 0.8rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.3s ease;
+            border: 1px solid var(--button-primary-border); /* Consistent border */
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
+        }
+
+        .btn-main:hover {
+            background-color: var(--button-primary-hover-bg);
+            transform: translateY(-2px); /* Consistent lift on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+
+        .btn-main:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .features-section {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            text-align: center;
+            height: 100%; /* Ensure cards in a row have equal height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.45);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--heading-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: var(--text-color-secondary);
+            flex-grow: 1; /* Allow text to take up available space */
+        }
+
+        .call-to-action-section {
+            text-align: center; /* Ensures text content is centered */
+            padding: 4rem 1rem;
+            max-width: 800px;
+            margin: 0 auto 4rem auto; /* Centers the block horizontally */
+        }
+
+        .call-to-action-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--heading-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .call-to-action-section p {
+            font-size: 1.1rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        .footer {
+            width: 100%;
+            padding: 1.5rem 1rem;
+            background-color: var(--footer-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--footer-border);
+            color: var(--text-color-secondary);
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section p {
+                font-size: 1rem;
+            }
+            .features-section h2, .call-to-action-section h2 {
+                font-size: 2rem;
+            }
+            .feature-card {
+                padding: 1.5rem;
+            }
+            .feature-card i {
+                font-size: 2.5rem;
+            }
+            .feature-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 3rem 0.5rem;
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section p {
+                font-size: 0.9rem;
+            }
+            .features-section {
+                padding: 2rem 0.5rem;
+            }
+            .features-section h2, .call-to-action-section h2 {
+                font-size: 1.8rem;
+            }
+            .feature-card {
+                padding: 1rem;
+            }
+            .feature-card i {
+                font-size: 2rem;
+            }
+            .feature-card h3 {
+                font-size: 1.3rem;
+            }
+            .btn-main {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg w-100">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">NeuroFocus</a>
+            <div class="theme-icon-container ms-auto">
+                <i id="switchToLightIcon" class="theme-icon fa-solid fa-sun"></i>
+                <i id="switchToDarkIcon" class="theme-icon fa-solid fa-moon" style="display: none;"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>Unlock Your Peak Productivity with NeuroFocus</h1>
+            <p>Your all-in-one digital workspace designed to enhance focus, streamline tasks, and track your progress. Achieve more, effortlessly.</p>
+            <div class="d-flex justify-content-center gap-3"> <!-- Added flex container for buttons -->
+                <a href="#features" class="btn-main">Explore Features</a>
+                <!-- New "Get Started Now" button -->
+                <a href="neurofocus-app.html" class="btn-main">Get Started Now</a> <!-- In a deployed scenario, replace '#' with the actual URL of your NeuroFocus app -->
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <h2>Key Features & Benefits</h2>
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Pomodoro Timer</h3>
+                        <p>Master your time with customizable work and break intervals. Boost focus, prevent burnout, and improve time management through structured sessions.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-list-check"></i>
+                        <h3>To-Do List</h3>
+                        <p>Organize your daily tasks, track completion, and maintain clarity on your priorities. Get a sense of accomplishment as you check things off.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Daily Motivation</h3>
+                        <p>Start your day inspired with fresh motivational quotes. Cultivate a positive mindset and stay energized throughout your work.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-volume-up"></i>
+                        <h3>Noise Generator</h3>
+                        <p>Create your ideal auditory environment. Play ambient sounds like rain, ocean waves, or forest birds to mask distractions and enhance concentration.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-sticky-note"></i>
+                        <h3>Quick Notes</h3>
+                        <p>Jot down ideas, thoughts, or important information instantly. Easily clear notes or download them as a PDF for safekeeping and review.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-bookmark"></i>
+                        <h3>Bookmarks Saver</h3>
+                        <p>Keep your essential web resources organized and easily accessible. Save time searching and quickly revisit important links.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Daily Planner</h3>
+                        <p>Plan your days effectively by adding dated tasks and appointments. Get a clear overview of your schedule and download your plans as PDFs.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Productivity Dashboard</h3>
+                        <p>Visualize your progress with daily statistics on hours worked, tasks completed, and focus session success rate. Gain insights and stay motivated.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="feature-card">
+                        <i class="fas fa-ban"></i>
+                        <h3>Distraction Blocker (Conceptual)</h3>
+                        <p>While this feature typically requires a browser extension, NeuroFocus highlights the importance of minimizing online distractions for peak focus.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="call-to-action-section">
+            <h2>Ready to Transform Your Productivity?</h2>
+            <p>Join countless others who are already achieving more with NeuroFocus. Start your journey towards enhanced focus and efficiency today!</p>
+            <a href="neurofocus-app.html" class="btn-main">Get Started Now</a> <!-- Link to your main app if deployed -->
+        </section>
+    </main>
+
+    <footer class="footer">
+        &copy; 2025 NeuroFocus. All rights reserved. Designed by Rupesh Verma.
+    </footer>
+
+    <!-- Bootstrap JS CDN (Bundle with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // --- Theme Switch Logic (Copied from main app for consistency) ---
+        const themeIconContainer = document.querySelector('.theme-icon-container');
+        const switchToLightIcon = document.getElementById('switchToLightIcon'); // Sun icon
+        const switchToDarkIcon = document.getElementById('switchToDarkIcon');   // Moon icon
+        const body = document.body;
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                body.classList.add('light-mode');
+                switchToLightIcon.style.display = 'none'; // Hide sun
+                switchToDarkIcon.style.display = 'block';  // Show moon
+                localStorage.setItem('neuroFocusTheme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                switchToLightIcon.style.display = 'block'; // Show sun
+                switchToDarkIcon.style.display = 'none';  // Hide moon
+                localStorage.setItem('neuroFocusTheme', 'dark');
+            }
+        }
+
+        // Check for saved theme preference on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('neuroFocusTheme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else {
+                // Default to dark mode if no preference is saved
+                applyTheme('dark');
+            }
+        });
+
+        // Toggle theme on icon click
+        themeIconContainer.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light');
+            }
+        });
+    </script>
+</body>
+</html>

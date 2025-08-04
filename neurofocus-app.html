@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroFocus</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Tone.js for audio generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            /* Dark Mode Variables */
+            --bg-gradient-start: #0d1117; /* Deep navy */
+            --bg-gradient-mid1: #121a24; /* Slightly lighter navy */
+            --bg-gradient-mid2: #172331; /* Another step lighter */
+            --bg-gradient-end: #1c2e3f; /* Blending */
+            --text-color-primary: #e2e8f0;
+            --text-color-secondary: #f8fafc;
+            --tool-card-bg: rgba(31, 41, 55, 0.9); /* Slightly lighter dark gray for cards */
+            --tool-card-border: rgba(144, 205, 244, 0.2);
+            --heading-color: #90cdf4;
+            --input-bg: rgba(74, 85, 104, 0.5);
+            --input-border: rgba(102, 126, 234, 0.4);
+            --list-item-bg: rgba(74, 85, 104, 0.5);
+            --list-item-completed-bg: rgba(44, 82, 130, 0.5);
+            --list-item-completed-text: #d1d5db;
+            --checkbox-bg: rgba(102, 126, 234, 0.7);
+            --checkbox-checked-bg: rgba(72, 187, 120, 0.7);
+            --scrollbar-track: rgba(45, 55, 72, 0.5);
+            --scrollbar-thumb: rgba(102, 126, 234, 0.7);
+            --slider-track: rgba(74, 85, 104, 0.5);
+            --slider-thumb: #90cdf4;
+
+            /* New Button Colors - Dark Mode */
+            --button-primary-bg: #3182ce;
+            --button-primary-hover-bg: #2b6cb0;
+            --button-primary-border: rgba(49, 130, 206, 0.4);
+
+            --button-success-bg: #4CAF50;
+            --button-success-hover-bg: #43A047;
+            --button-success-border: rgba(76, 175, 80, 0.4);
+
+            --button-warning-bg: #FFC107;
+            --button-warning-hover-bg: #FFB300;
+            --button-warning-border: rgba(255, 193, 7, 0.4);
+
+            --button-danger-bg: #F44336;
+            --button-danger-hover-bg: #E53935;
+            --button-danger-border: rgba(244, 67, 54, 0.4);
+
+            --button-neutral-bg: #607d8b;
+            --button-neutral-hover-bg: #546E7A;
+            --button-neutral-border: rgba(96, 125, 139, 0.4);
+
+            --navbar-bg: rgba(45, 55, 72, 0.5);
+            --navbar-border: rgba(144, 205, 244, 0.2);
+            --icon-color: #e2e8f0; /* Default icon color for dark mode */
+            --footer-bg: rgba(45, 55, 72, 0.5);
+            --footer-border: rgba(144, 205, 244, 0.2);
+        }
+
+        body.light-mode {
+            /* Light Mode Variables */
+            --bg-gradient-start: #f5f7fa; /* Very light gray/soft white */
+            --bg-gradient-mid1: #edf0f5; /* Slightly darker for gradient effect */
+            --bg-gradient-mid2: #e0e4eb; /* Another step darker */
+            --bg-gradient-end: #d1d6e0; /* Blending */
+            --text-color-primary: #2d3748;
+            --text-color-secondary: #4a5568;
+            --tool-card-bg: rgba(255, 255, 255, 0.9); /* White cards */
+            --tool-card-border: rgba(0, 0, 0, 0.1);
+            --heading-color: #3182ce;
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --input-border: rgba(74, 85, 104, 0.4);
+            --list-item-bg: rgba(255, 255, 255, 0.7);
+            --list-item-completed-bg: rgba(180, 210, 240, 0.5);
+            --list-item-completed-text: #718096;
+            --checkbox-bg: rgba(66, 153, 225, 0.7);
+            --checkbox-checked-bg: rgba(56, 161, 105, 0.7);
+            --scrollbar-track: rgba(200, 220, 240, 0.5);
+            --scrollbar-thumb: rgba(49, 130, 206, 0.7);
+            --slider-track: rgba(200, 220, 240, 0.5);
+            --slider-thumb: #3182ce;
+
+            /* New Button Colors - Light Mode */
+            --button-primary-bg: #3182ce;
+            --button-primary-hover-bg: #2b6cb0;
+            --button-primary-border: rgba(49, 130, 206, 0.4);
+
+            --button-success-bg: #4CAF50;
+            --button-success-hover-bg: #43A047;
+            --button-success-border: rgba(76, 175, 80, 0.4);
+
+            --button-warning-bg: #FFC107;
+            --button-warning-hover-bg: #FFB300;
+            --button-warning-border: rgba(255, 193, 7, 0.4);
+
+            --button-danger-bg: #F44336;
+            --button-danger-hover-bg: #E53935;
+            --button-danger-border: rgba(244, 67, 54, 0.4);
+
+            --button-neutral-bg: #9e9e9e;
+            --button-neutral-hover-bg: #757575;
+            --button-neutral-border: rgba(158, 158, 158, 0.4);
+
+            --navbar-bg: rgba(255, 255, 255, 0.7); /* Lighter navbar for light mode */
+            --navbar-border: rgba(0, 0, 0, 0.1);
+            --icon-color: #2d3748; /* Darker icon color for light mode */
+            --footer-bg: rgba(255, 255, 255, 0.7);
+            --footer-border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif; /* Changed to Poppins */
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid1), var(--bg-gradient-mid2), var(--bg-gradient-end));
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: var(--text-color-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--navbar-border);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .navbar-brand {
+            color: var(--heading-color) !important;
+            font-weight: 700;
+            font-size: 2rem; /* Slightly larger */
+            letter-spacing: 0.03em; /* Added letter-spacing */
+        }
+
+        .theme-icon-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.5rem; /* Larger icons */
+        }
+
+        .theme-icon {
+            color: var(--icon-color); /* Use icon color variable */
+            transition: color 0.3s ease;
+            margin: 0 0.25rem; /* Small spacing between icons if both are shown for transition */
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            flex-grow: 1;
+            padding: 1rem;
+        }
+        .tool-card {
+            background-color: var(--tool-card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--tool-card-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+        }
+        .tool-card h2 {
+            font-size: 1.75rem; /* Slightly larger */
+            font-weight: 700; /* Bolder */
+            margin-bottom: 1rem;
+            color: var(--heading-color);
+            letter-spacing: 0.02em; /* Added letter-spacing */
+            transition: color 0.3s ease;
+        }
+        .button {
+            color: white; /* All buttons have white text */
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.3s ease;
+            cursor: pointer;
+            border: 1px solid; /* Border will be set by specific button rules */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        /* Specific button colors with transparency */
+        #startButton { background-color: var(--button-success-bg); border-color: var(--button-success-border); }
+        #startButton:hover { background-color: var(--button-success-hover-bg); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+
+        #pauseButton { background-color: var(--button-warning-bg); border-color: var(--button-warning-border); }
+        #pauseButton:hover { background-color: var(--button-warning-hover-bg); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+
+        #resetButton { background-color: var(--button-danger-bg); border-color: var(--button-danger-border); }
+        #resetButton:hover { background-color: var(--button-danger-hover-bg); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+
+        #workButton, #shortBreakButton, #longBreakButton, #addTodoButton,
+        #prevNoiseButton, #nextNoiseButton, #newQuoteButton, #downloadPdfButton,
+        #downloadPlanPdfButton, #addPlanButton, #addBookmarkButton {
+            background-color: var(--button-primary-bg);
+            border-color: var(--button-primary-border);
+        }
+        #workButton:hover, #shortBreakButton:hover, #longBreakButton:hover, #addTodoButton:hover,
+        #prevNoiseButton:hover, #nextNoiseButton:hover, #newQuoteButton:hover, #downloadPdfButton:hover,
+        #downloadPlanPdfButton:hover, #addPlanButton:hover, #addBookmarkButton:hover {
+            background-color: var(--button-primary-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #setCustomButton, #stopNoiseButton, #clearNotesButton {
+            background-color: var(--button-neutral-bg);
+            border-color: var(--button-neutral-border);
+        }
+        #setCustomButton:hover, #stopNoiseButton:hover, #clearNotesButton:hover {
+            background-color: var(--button-neutral-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        #playPauseNoiseButton { background-color: var(--button-warning-bg); border-color: var(--button-warning-border); }
+        #playPauseNoiseButton:hover { background-color: var(--button-warning-hover-bg); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+
+        #resetStatsButton { background-color: var(--button-danger-bg); border-color: var(--button-danger-border); }
+        #resetStatsButton:hover { background-color: var(--button-danger-hover-bg); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+
+        .delete-button { /* Specific style for delete buttons in lists */
+            background-color: var(--button-danger-bg);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.2s ease-in-out, border-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Lighter shadow for smaller buttons */
+        }
+        .delete-button:hover {
+            background-color: var(--button-danger-hover-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+
+        /* Icon size for the play/pause button */
+        #playPauseIcon {
+            font-size: 1.1rem; /* Adjust as needed */
+        }
+
+        .input-field {
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-color-primary);
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--heading-color);
+            box-shadow: 0 0 0 3px rgba(144, 205, 244, 0.5);
+        }
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--list-item-bg);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.2s ease-in-out, border-color 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        .list-item.completed {
+            background-color: var(--list-item-completed-bg);
+            text-decoration: line-through;
+            color: var(--list-item-completed-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .delete-button {
+            background-color: var(--button-danger-bg);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.2s ease-in-out, border-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .delete-button:hover {
+            background-color: var(--button-danger-hover-bg);
+        }
+        .checkbox {
+            margin-right: 0.75rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 0.25rem;
+            background-color: var(--checkbox-bg);
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid rgba(144, 205, 244, 0.3);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .checkbox:checked {
+            background-color: var(--checkbox-checked-bg);
+            border-color: rgba(144, 238, 144, 0.3);
+        }
+        .checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.5rem;
+            height: 0.8rem;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: translate(-50%, -60%) rotate(45deg);
+        }
+        /* Custom scrollbar for To-Do list */
+        .todo-list-container, .bookmark-list-container, .plan-list-container, .noise-playlist-container {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        .todo-list-container::-webkit-scrollbar, .bookmark-list-container::-webkit-scrollbar, .plan-list-container::-webkit-scrollbar, .noise-playlist-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .todo-list-container::-webkit-scrollbar-track, .bookmark-list-container::-webkit-scrollbar-track, .plan-list-container::-webkit-scrollbar-track, .noise-playlist-container::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 10px;
+        }
+        .todo-list-container::-webkit-scrollbar-thumb, .bookmark-list-container::-webkit-scrollbar-thumb, .plan-list-container::-webkit-scrollbar-thumb, .noise-playlist-container::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 10px;
+        }
+        .todo-list-container::-webkit-scrollbar-thumb:hover, .bookmark-list-container::-webkit-scrollbar-thumb:hover, .plan-list-container::-webkit-scrollbar-thumb:hover, .noise-playlist-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(90, 103, 216, 0.8);
+        }
+
+        /* Custom styles for volume slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: var(--slider-track);
+            border-radius: 5px;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--slider-thumb);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 0 3px rgba(144, 205, 244, 0.3);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--slider-thumb);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 0 3px rgba(144, 205, 244, 0.3);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #63b3ed;
+            box-shadow: 0 0 0 5px rgba(144, 205, 244, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: #63b3ed;
+            box-shadow: 0 0 0 5px rgba(144, 205, 244, 0.5);
+        }
+
+        /* General responsiveness improvements */
+        @media (max-width: 576px) { /* Extra small devices (phones) */
+            .container {
+                padding: 0.5rem; /* Reduce padding on very small screens */
+            }
+            .tool-card {
+                padding: 1rem; /* Smaller padding for cards on small screens */
+            }
+            .navbar-brand {
+                font-size: 1.5rem; /* Slightly smaller brand font on small screens */
+            }
+            .theme-icon-container {
+                font-size: 1.2rem; /* Smaller icons on small screens */
+            }
+            .button {
+                padding: 0.6rem 1rem; /* Slightly smaller buttons */
+                font-size: 0.9rem;
+            }
+            .input-field {
+                padding: 0.6rem 0.8rem; /* Smaller input fields */
+                font-size: 0.9rem;
+            }
+            .fs-1 { /* Adjusting large font sizes */
+                font-size: 2.5rem !important; /* Smaller for timer display */
+            }
+            .fs-5 {
+                font-size: 1.1rem !important;
+            }
+            .fs-6 {
+                font-size: 0.9rem !important;
+            }
+            /* Specific adjustments for smaller screens to prevent overflow */
+            .d-flex.gap-3.mb-3, .d-flex.gap-2.mt-3, .d-flex.gap-2.mb-2.w-100, .d-flex.justify-content-center.gap-3.mb-4.w-100.px-3 {
+                flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+                justify-content: center !important; /* Center items when wrapped */
+                gap: 0.5rem !important; /* Reduce gap when wrapped */
+            }
+            .button.btn.px-3.py-1.fs-6 {
+                flex: 1 1 auto; /* Allow buttons to grow and shrink */
+                min-width: 100px; /* Ensure a minimum width */
+            }
+            .input-field.form-control.text-center.w-100 {
+                flex: 1 1 auto;
+            }
+            .d-flex.mb-3 input {
+                flex-basis: 70%; /* Give input more space in todo list */
+            }
+            .d-flex.mb-3 button {
+                flex-basis: 25%; /* Give button less space in todo list */
+            }
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .tool-card {
+                padding: 1.2rem;
+            }
+            .tool-card h2 {
+                font-size: 1.6rem;
+            }
+            .fs-1 {
+                font-size: 3rem !important;
+            }
+            .fs-5 {
+                font-size: 1.2rem !important;
+            }
+            .fs-6 {
+                font-size: 1rem !important;
+            }
+        }
+
+        /* Large devices (desktops, 992px and up) */
+        @media (min-width: 992px) {
+            .container {
+                padding: 2rem;
+            }
+            .tool-card {
+                padding: 1.5rem;
+            }
+            .tool-card h2 {
+                font-size: 1.75rem;
+            }
+            .fs-1 {
+                font-size: 3.5rem !important;
+            }
+            .fs-5 {
+                font-size: 1.25rem !important;
+            }
+            .fs-6 {
+                font-size: 1rem !important;
+            }
+        }
+
+
+        /* Ensure images are always responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Remove extra space below images */
+        }
+
+        .footer {
+            width: 100%;
+            padding: 1.5rem 1rem;
+            background-color: var(--footer-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--footer-border);
+            color: var(--text-color-secondary);
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: auto; /* Pushes footer to the bottom */
+        }
+
+        /* Noise Playlist Specific Styles */
+        .noise-playlist-container {
+            border: 1px solid var(--tool-card-border);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            max-height: 150px; /* Fixed height for scrollability */
+            background-color: var(--input-bg); /* Use input background for consistency */
+        }
+
+        .noise-playlist-item {
+            display: block;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.5rem;
+            background-color: transparent;
+            color: var(--text-color-primary);
+            border: 1px solid transparent;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .noise-playlist-item:hover {
+            background-color: rgba(144, 205, 244, 0.1); /* Light highlight on hover */
+            border-color: rgba(144, 205, 244, 0.3);
+        }
+
+        .noise-playlist-item.active {
+            background-color: var(--button-teal-bg); /* Highlight active sound */
+            border-color: var(--button-teal-border);
+            color: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg w-100">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">NeuroFocus</a>
+            <div class="theme-icon-container ms-auto">
+                <i id="switchToLightIcon" class="theme-icon fa-solid fa-sun"></i>
+                <i id="switchToDarkIcon" class="theme-icon fa-solid fa-moon" style="display: none;"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container p-4">
+        <h1 class="text-center mb-4" style="font-size: 3.5rem; font-weight: 800; color: var(--text-color-primary); letter-spacing: 0.05em;">NeuroFocus</h1>
+
+        <div class="row g-4"> <!-- Bootstrap grid row with gutter spacing -->
+
+            <!-- Pomodoro Timer -->
+            <div class="col-12 col-md-6 col-lg-4"> <!-- Responsive columns -->
+                <div class="tool-card h-100"> <!-- h-100 for equal height cards -->
+                    <h2>Pomodoro Timer</h2>
+                    <div class="d-flex flex-column align-items-center justify-content-center flex-grow-1">
+                        <div id="timerDisplay" class="fs-1 fw-bolder text-info mb-4">25:00</div> <!-- fs-1 for font size, fw-bolder for bold, text-info for blue -->
+                        <div class="d-flex gap-3 mb-3"> <!-- d-flex and gap-3 for spacing -->
+                            <button id="startButton" class="button btn">Start</button>
+                            <button id="pauseButton" class="button btn">Pause</button>
+                            <button id="resetButton" class="button btn">Reset</button>
+                        </div>
+                        <div class="d-flex gap-2 mt-3">
+                            <button id="workButton" class="button btn px-3 py-1 fs-6">Work (25m)</button>
+                            <button id="shortBreakButton" class="button btn px-3 py-1 fs-6">Short Break (5m)</button>
+                            <button id="longBreakButton" class="button btn px-3 py-1 fs-6">Long Break (15m)</button>
+                        </div>
+                        <!-- Custom Time Option -->
+                        <div class="d-flex flex-column align-items-center mt-4 w-100 px-3">
+                            <div class="d-flex gap-2 mb-2 w-100">
+                                <input type="number" id="customHours" class="input-field form-control text-center w-100" placeholder="Hr" min="0" max="23">
+                                <input type="number" id="customMinutes" class="input-field form-control text-center w-100" placeholder="Min" min="0" max="59">
+                                <input type="number" id="customSeconds" class="input-field form-control text-center w-100" placeholder="Sec" min="0" max="59">
+                            </div>
+                            <button id="setCustomButton" class="button btn w-100">Set Custom Time</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- To-Do List Manager -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="tool-card h-100">
+                    <h2>To-Do List</h2>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <div class="d-flex mb-3">
+                            <input type="text" id="todoInput" class="input-field form-control flex-grow-1 me-2" placeholder="Add a new task...">
+                            <button id="addTodoButton" class="button btn">Add</button>
+                        </div>
+                        <div id="todoList" class="todo-list-container flex-grow-1">
+                            <!-- To-Do items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Motivation Quote -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="tool-card h-100">
+                    <h2>Daily Motivation</h2>
+                    <div class="d-flex flex-column align-items-center justify-content-center text-center flex-grow-1">
+                        <p id="quoteDisplay" class="fs-5 fst-italic mb-4" style="color: var(--text-color-secondary);">"The only way to do great work is to love what you do."</p>
+                        <p id="quoteAuthor" class="fs-6" style="color: var(--text-color-secondary);">- Steve Jobs</p>
+                        <button id="newQuoteButton" class="button btn mt-4">New Quote</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Noise Generator -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="tool-card h-100">
+                    <h2>Noise Generator</h2>
+                    <div class="d-flex flex-column align-items-center justify-content-center flex-grow-1">
+                        <p class="fs-6 mb-3" style="color: var(--text-color-secondary);">Select a sound for focus:</p>
+                        <div id="noisePlaylist" class="noise-playlist-container w-100 px-3 mb-4">
+                            <!-- Audio buttons will be dynamically added here -->
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 mb-4 w-100 px-3">
+                            <button id="prevNoiseButton" class="button btn"><i class="fas fa-backward"></i></button>
+                            <button id="playPauseNoiseButton" class="button btn">
+                                <i id="playPauseIcon" class="fas fa-play"></i> <!-- Initial icon is play -->
+                            </button>
+                            <button id="nextNoiseButton" class="button btn"><i class="fas fa-forward"></i></button>
+                        </div>
+                        <button id="stopNoiseButton" class="button btn w-100 mb-4">Stop All</button>
+                        <div class="w-100 px-3 mt-auto"> <!-- mt-auto to push to bottom -->
+                            <label for="volumeSlider" class="form-label d-block text-sm font-medium mb-2" style="color: var(--text-color-secondary);">Volume: <span id="volumeValue">-20 dB</span></label>
+                            <input type="range" id="volumeSlider" min="-60" max="0" value="-20" step="1" class="form-range w-100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Notes -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="tool-card h-100">
+                    <h2>Quick Notes</h2>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <textarea id="quickNotesTextarea" class="input-field form-control flex-grow-1 min-h-[120px]" placeholder="Jot down quick thoughts or ideas here..."></textarea>
+                        <div class="d-flex gap-2 mt-4">
+                            <button id="clearNotesButton" class="button btn">Clear Notes</button>
+                            <button id="downloadPdfButton" class="button btn">Download PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distraction Blocker (Conceptual) -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="tool-card h-100">
+                    <h2>Distraction Blocker</h2>
+                    <div class="d-flex flex-column align-items-center justify-content-center text-center flex-grow-1">
+                        <p class="fs-6" style="color: var(--text-color-secondary);">
+                            This tool would typically block distracting websites. For a web application, this functionality often requires a browser extension.
+                        </p>
+                        <p class="fs-6 mt-2" style="color: var(--text-color-secondary);">
+                            Consider using a dedicated browser extension for effective website blocking.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookmarks Saver -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="tool-card h-100">
+                    <h2>Bookmarks Saver</h2>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <input type="text" id="bookmarkNameInput" class="input-field form-control mb-2" placeholder="Bookmark Name">
+                        <input type="url" id="bookmarkUrlInput" class="input-field form-control mb-3" placeholder="URL (e.g., https://example.com)">
+                        <button id="addBookmarkButton" class="button btn">Add Bookmark</button>
+                        <div id="bookmarkList" class="bookmark-list-container mt-3 flex-grow-1">
+                            <!-- Bookmarks will be appended here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Planner -->
+            <div class="col-12 col-lg-6">
+                <div class="tool-card h-100">
+                    <h2>Daily Planner</h2>
+                    <div class="d-flex flex-column flex-grow-1">
+                        <input type="text" id="planTextInput" class="input-field form-control mb-2" placeholder="Add a plan item...">
+                        <input type="date" id="planDateInput" class="input-field form-control mb-3">
+                        <button id="addPlanButton" class="button btn">Add Plan</button>
+                        <div id="planList" class="plan-list-container mt-3 flex-grow-1">
+                            <!-- Plan items will be appended here -->
+                        </div>
+                        <button id="downloadPlanPdfButton" class="button btn mt-3">Download Plan PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productivity Statistics Dashboard -->
+            <div class="col-12 col-lg-6">
+                <div class="tool-card h-100">
+                    <h2>Productivity Dashboard</h2>
+                    <div class="d-flex flex-column justify-content-center text-center flex-grow-1">
+                        <p class="fs-5 mb-2" style="color: var(--text-color-secondary);">
+                            Hours Worked Today: <span id="hoursWorkedDisplay" class="fw-bold text-info">0.00</span>
+                        </p>
+                        <p class="fs-5 mb-2" style="color: var(--text-color-secondary);">
+                            Tasks Completed Today: <span id="tasksCompletedDisplay" class="fw-bold text-info">0</span>
+                        </p>
+                        <p class="fs-5 mb-4" style="color: var(--text-color-secondary);">
+                            Focus Session Success Rate: <span id="successRateDisplay" class="fw-bold text-info">0%</span>
+                        </p>
+                        <button id="resetStatsButton" class="button btn mt-2">Reset Daily Stats</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Notification/Modal for Timer -->
+    <div id="timerNotification" class="modal fade" tabindex="-1" aria-labelledby="notificationMessage" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white p-4 rounded-lg shadow-xl text-center">
+                <div class="modal-body">
+                    <p id="notificationMessage" class="fs-2 fw-bold text-info mb-4">Time is up!</p>
+                    <button id="closeNotification" type="button" class="button btn bg-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; 2025 NeuroFocus. All rights reserved. Designed by Rupesh Verma.
+    </footer>
+
+    <!-- Bootstrap JS CDN (Bundle with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // --- Theme Switch Logic ---
+        const themeIconContainer = document.querySelector('.theme-icon-container');
+        const switchToLightIcon = document.getElementById('switchToLightIcon'); // Sun icon
+        const switchToDarkIcon = document.getElementById('switchToDarkIcon');   // Moon icon
+        const body = document.body;
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                body.classList.add('light-mode');
+                switchToLightIcon.style.display = 'none'; // Hide sun
+                switchToDarkIcon.style.display = 'block';  // Show moon
+                localStorage.setItem('neuroFocusTheme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                switchToLightIcon.style.display = 'block'; // Show sun
+                switchToDarkIcon.style.display = 'none';  // Hide moon
+                localStorage.setItem('neuroFocusTheme', 'dark');
+            }
+        }
+
+        // Check for saved theme preference on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('neuroFocusTheme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else {
+                // Default to dark mode if no preference is saved
+                applyTheme('dark');
+            }
+        });
+
+        // Toggle theme on icon click
+        themeIconContainer.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light');
+            }
+        });
+
+        // --- Productivity Statistics Logic ---
+        const hoursWorkedDisplay = document.getElementById('hoursWorkedDisplay');
+        const tasksCompletedDisplay = document.getElementById('tasksCompletedDisplay');
+        const successRateDisplay = document.getElementById('successRateDisplay');
+        const resetStatsButton = document.getElementById('resetStatsButton');
+
+        let productivityStats = JSON.parse(localStorage.getItem('neuroFocusProductivityStats')) || {};
+        let currentStats = {
+            hoursWorked: 0,
+            tasksCompleted: 0,
+            sessionsStarted: 0,
+            sessionsCompleted: 0,
+            lastUpdatedDate: ''
+        };
+
+        // Helper to get today's date in YYYY-MM-DD format
+        function getTodayDate() {
+            const today = new Date();
+            return formatDate(today); // Reusing formatDate from Daily Planner
+        }
+
+        function loadDailyStats() {
+            const todayDate = getTodayDate();
+            if (productivityStats[todayDate]) {
+                currentStats = productivityStats[todayDate];
+            } else {
+                // Reset for a new day if date has changed or no stats for today
+                currentStats = {
+                    hoursWorked: 0,
+                    tasksCompleted: 0,
+                    sessionsStarted: 0,
+                    sessionsCompleted: 0,
+                    lastUpdatedDate: todayDate
+                };
+                productivityStats[todayDate] = currentStats;
+                saveProductivityStats(); // Save the new daily entry
+            }
+            updateProductivityDashboard();
+        }
+
+        function saveProductivityStats() {
+            productivityStats[currentStats.lastUpdatedDate] = currentStats;
+            localStorage.setItem('neuroFocusProductivityStats', JSON.stringify(productivityStats));
+        }
+
+        function updateProductivityDashboard() {
+            hoursWorkedDisplay.textContent = currentStats.hoursWorked.toFixed(2); // Display hours with 2 decimal places
+            tasksCompletedDisplay.textContent = currentStats.tasksCompleted;
+            const successRate = currentStats.sessionsStarted > 0
+                ? ((currentStats.sessionsCompleted / currentStats.sessionsStarted) * 100).toFixed(0)
+                : 0;
+            successRateDisplay.textContent = `${successRate}%`;
+        }
+
+        function resetDailyStats() {
+            const todayDate = getTodayDate();
+            currentStats = {
+                hoursWorked: 0,
+                tasksCompleted: 0,
+                sessionsStarted: 0,
+                sessionsCompleted: 0,
+                lastUpdatedDate: todayDate
+            };
+            productivityStats[todayDate] = currentStats; // Overwrite today's stats
+            saveProductivityStats();
+            updateProductivityDashboard();
+            showNotification('Daily statistics have been reset!');
+        }
+
+        resetStatsButton.addEventListener('click', resetDailyStats);
+
+
+        // --- Pomodoro Timer Logic (Modified for Stats) ---
+        const timerDisplay = document.getElementById('timerDisplay');
+        const startButton = document.getElementById('startButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const resetButton = document.getElementById('resetButton');
+        const workButton = document.getElementById('workButton');
+        const shortBreakButton = document.getElementById('shortBreakButton');
+        const longBreakButton = document.getElementById('longBreakButton');
+        const customHoursInput = document.getElementById('customHours');
+        const customMinutesInput = document.getElementById('customMinutes');
+        const customSecondsInput = document.getElementById('customSeconds');
+        const setCustomButton = document.getElementById('setCustomButton');
+
+        // Notification elements
+        const timerNotificationElement = document.getElementById('timerNotification');
+        const timerNotification = new bootstrap.Modal(timerNotificationElement); // Initialize Bootstrap Modal
+        const notificationMessage = document.getElementById('notificationMessage');
+        const closeNotificationButton = document.getElementById('closeNotification');
+
+        let timer;
+        let timeLeft; // in seconds
+        let isPaused = true;
+        let currentMode = 'work'; // 'work', 'shortBreak', 'longBreak', 'custom'
+        let sessionDurationInSeconds = 0; // To store the actual duration of the session when it starts
+
+        const modes = {
+            work: 25 * 60,
+            shortBreak: 5 * 60,
+            longBreak: 15 * 60,
+            custom: 0 // Will be set dynamically
+        };
+
+        function updateDisplay() {
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
+            const seconds = timeLeft % 60;
+
+            let displayString = '';
+            if (hours > 0) {
+                displayString += `${hours < 10 ? '0' : ''}${hours}:`;
+            }
+            displayString += `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timerDisplay.textContent = displayString;
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            if (mode !== 'custom') {
+                timeLeft = modes[mode];
+                sessionDurationInSeconds = modes[mode];
+            }
+            isPaused = true;
+            clearInterval(timer);
+            updateDisplay();
+        }
+
+        function startTimer() {
+            if (!isPaused) return;
+            isPaused = false;
+
+            // Increment sessionsStarted only when a new session truly begins
+            if (timeLeft === sessionDurationInSeconds) { // Check if it's the very start of a session
+                currentStats.sessionsStarted++;
+                saveProductivityStats();
+                updateProductivityDashboard();
+            }
+
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timer);
+                    isPaused = true;
+                    showNotification('Time is up!'); // Use custom notification
+
+                    // Increment sessionsCompleted when a session naturally finishes
+                    currentStats.hoursWorked += (sessionDurationInSeconds / 3600); // Add completed session hours
+                    currentStats.sessionsCompleted++;
+                    saveProductivityStats();
+                    updateProductivityDashboard();
+
+
+                    // Auto-switch to next mode (e.g., after work, go to short break)
+                    if (currentMode === 'work') {
+                        setMode('shortBreak');
+                    } else if (currentMode === 'shortBreak' || currentMode === 'longBreak' || currentMode === 'custom') {
+                        setMode('work'); // After any break or custom timer, go back to work
+                    }
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+            clearInterval(timer);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            // If it's a custom timer, reset to the last custom set time, otherwise to default mode time
+            if (currentMode === 'custom' && modes.custom > 0) {
+                timeLeft = modes.custom;
+                sessionDurationInSeconds = modes.custom;
+            } else {
+                setMode(currentMode); // Reset to the current mode's default time
+            }
+            updateDisplay();
+        }
+
+        // Notification functions
+        function showNotification(message) {
+            notificationMessage.textContent = message;
+            timerNotification.show(); // Show Bootstrap modal
+        }
+
+        // Event Listeners for Pomodoro
+        startButton.addEventListener('click', startTimer);
+        pauseButton.addEventListener('click', pauseTimer);
+        resetButton.addEventListener('click', resetTimer);
+        workButton.addEventListener('click', () => setMode('work'));
+        shortBreakButton.addEventListener('click', () => setMode('shortBreak'));
+        longBreakButton.addEventListener('click', () => setMode('longBreak'));
+        // closeNotificationButton now handled by data-bs-dismiss="modal"
+
+        setCustomButton.addEventListener('click', () => {
+            const hours = parseInt(customHoursInput.value) || 0;
+            const minutes = parseInt(customMinutesInput.value) || 0;
+            const seconds = parseInt(customSecondsInput.value) || 0;
+
+            if (isNaN(hours) || isNaN(minutes) || isNaN(seconds) || hours < 0 || minutes < 0 || seconds < 0 || minutes >= 60 || seconds >= 60) {
+                showNotification('Please enter valid numbers for hours (0-23), minutes (0-59), and seconds (0-59).');
+                return;
+            }
+
+            const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+            if (totalSeconds === 0) {
+                showNotification('Custom time cannot be zero.');
+                return;
+            }
+
+            modes.custom = totalSeconds; // Store the custom time
+            setMode('custom'); // Set mode to custom
+            timeLeft = totalSeconds; // Update timeLeft directly
+            sessionDurationInSeconds = totalSeconds; // Set duration for stats
+            updateDisplay(); // Update display immediately
+        });
+
+        // Initialize timer display
+        setMode('work');
+
+
+        // --- To-Do List Logic (Modified for Stats) ---
+        const todoInput = document.getElementById('todoInput');
+        const addTodoButton = document.getElementById('addTodoButton');
+        const todoList = document.getElementById('todoList');
+
+        let todos = JSON.parse(localStorage.getItem('neuroFocusTodos')) || [];
+
+        function saveTodos() {
+            localStorage.setItem('neuroFocusTodos', JSON.stringify(todos));
+        }
+
+        function renderTodos() {
+            todoList.innerHTML = ''; // Clear existing list
+            todos.forEach((todo, index) => {
+                const listItem = document.createElement('div');
+                listItem.className = `list-item d-flex align-items-center justify-content-between ${todo.completed ? 'completed' : ''}`;
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = todo.text;
+                textSpan.className = 'flex-grow-1';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'checkbox form-check-input'; // Use Bootstrap form-check-input
+                checkbox.checked = todo.completed;
+                checkbox.addEventListener('change', () => {
+                    const oldCompletedState = todos[index].completed;
+                    todos[index].completed = checkbox.checked;
+
+                    // Increment tasksCompleted only if it just became completed
+                    if (!oldCompletedState && todos[index].completed) {
+                        currentStats.tasksCompleted++;
+                        saveProductivityStats();
+                        updateProductivityDashboard();
+                    }
+                    saveTodos();
+                    renderTodos(); // Re-render to apply 'completed' class
+                });
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'delete-button btn btn-sm ms-2'; // Use Bootstrap btn and btn-sm
+                deleteButton.addEventListener('click', () => {
+                    todos.splice(index, 1); // Remove item from array
+                    saveTodos();
+                    renderTodos(); // Re-render the list
+                });
+
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'd-flex align-items-center flex-grow-1';
+                contentWrapper.appendChild(checkbox);
+                contentWrapper.appendChild(textSpan);
+
+                listItem.appendChild(contentWrapper);
+                listItem.appendChild(deleteButton);
+                todoList.appendChild(listItem);
+            });
+        }
+
+        function addTodo() {
+            const taskText = todoInput.value.trim();
+            if (taskText) {
+                todos.push({ text: taskText, completed: false });
+                todoInput.value = ''; // Clear input field
+                saveTodos();
+                renderTodos(); // Add new item to list
+            }
+        }
+
+        // Event Listeners for To-Do List
+        addTodoButton.addEventListener('click', addTodo);
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        // Initial render of todos
+        renderTodos();
+
+
+        // --- Daily Motivation Quote Logic ---
+        const quoteDisplay = document.getElementById('quoteDisplay');
+        const quoteAuthor = document.getElementById('quoteAuthor');
+        const newQuoteButton = document.getElementById('newQuoteButton');
+
+        const quotes = [
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+            { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
+            { text: "Your time is limited, don't waste it living someone else's life.", author: "Steve Jobs" },
+            { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+            { text: "The mind is everything. What you think you become.", author: "Buddha" },
+            { text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
+            { text: "To live is the rarest thing in the world. Most people exist, that is all.", author: "Oscar Wilde" }
+        ];
+
+        function getRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            return quotes[randomIndex];
+        }
+
+        function displayRandomQuote() {
+            const quote = getRandomQuote();
+            quoteDisplay.textContent = `"${quote.text}"`;
+            quoteAuthor.textContent = `- ${quote.author}`;
+        }
+
+        // Event Listener for New Quote Button
+        newQuoteButton.addEventListener('click', displayRandomQuote);
+
+        // Display initial quote
+        displayRandomQuote();
+
+
+        // --- Noise Generator Logic (using Tone.js) ---
+        const noisePlaylistContainer = document.getElementById('noisePlaylist');
+        const stopNoiseButton = document.getElementById('stopNoiseButton');
+        const playPauseNoiseButton = document.getElementById('playPauseNoiseButton'); // Changed from pauseNoiseButton
+        const prevNoiseButton = document.getElementById('prevNoiseButton');
+        const nextNoiseButton = document.getElementById('nextNoiseButton');
+        const playPauseIcon = document.getElementById('playPauseIcon'); // Get the icon element
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeValueSpan = document.getElementById('volumeValue');
+
+        let activeNoiseSource = null; // Stores the currently playing Tone.js object
+        let isNoisePlaying = false;
+        let birdChirpInterval = null; // To manage the bird chirps
+        let currentPlayingSoundIndex = -1; // Index of the currently active sound in the playlist
+
+        // Initialize all potential noise sources once
+        // White Noise
+        const whiteNoise = new Tone.Noise('white');
+        whiteNoise.volume.value = -20;
+        whiteNoise.loop = true;
+        whiteNoise.connect(Tone.Destination);
+
+        // Rain Sound: Brown noise with reverb and a subtle LFO on volume
+        const rainNoise = new Tone.Noise('brown');
+        const rainReverb = new Tone.Freeverb({
+            roomSize: 0.8, // Larger room for more ambience
+            wet: 0.6 // More wetness
+        });
+        const rainVolumeLFO = new Tone.LFO(0.1, -35, -25).start(); // Slow, subtle volume modulation
+        rainNoise.chain(rainReverb, Tone.Destination);
+        rainVolumeLFO.connect(rainNoise.volume); // Connect LFO to rain noise volume
+        rainNoise.volume.value = -30; // Base volume
+        rainNoise.loop = true;
+
+        // Ocean Waves: Pink noise with a slow filter sweep, chorus, and reverb
+        const oceanNoise = new Tone.Noise('pink');
+        const oceanFilter = new Tone.Filter(200, 'bandpass'); // Bandpass for wave "whoosh"
+        const oceanFilterLFO = new Tone.LFO(0.05, 100, 800).start(); // Slow LFO for filter frequency sweep
+        oceanFilterLFO.connect(oceanFilter.frequency);
+
+        const oceanChorus = new Tone.Chorus(4, 2.5, 0.5); // Wider stereo effect
+        const oceanReverb = new Tone.Freeverb({
+            roomSize: 0.9,
+            wet: 0.7
+        });
+        oceanNoise.chain(oceanFilter, oceanChorus, oceanReverb, Tone.Destination);
+        oceanNoise.volume.value = -25; // Base volume
+        oceanNoise.loop = true;
+
+        // Forest Birds: Pink noise for ambient background, plus randomized synth chirps
+        const forestAmbientNoise = new Tone.Noise('pink');
+        const forestHighpassFilter = new Tone.Filter(800, 'highpass'); // For airy, rustling leaves sound
+        forestAmbientNoise.chain(forestHighpassFilter, Tone.Destination);
+        forestAmbientNoise.volume.value = -40; // Very subtle ambient background
+        forestAmbientNoise.loop = true;
+
+        // Synth for bird chirps - using FMSynth for richer, more bird-like tone
+        const birdSynth = new Tone.FMSynth({
+            harmonicity: 3.0, // Ratio of carrier to modulator frequency - crucial for chirp
+            modulationIndex: 10, // Depth of FM modulation
+            oscillator: { type: 'sine' }, // Carrier oscillator
+            envelope: {
+                attack: 0.01,
+                decay: 0.1,
+                sustain: 0.0,
+                release: 0.1
+            },
+            modulation: { type: 'triangle' }, // Modulator oscillator
+            modulationEnvelope: {
+                attack: 0.05,
+                decay: 0.1,
+                sustain: 0.0,
+                release: 0.1
+            }
+        });
+
+        const birdDelay = new Tone.PingPongDelay({
+            delayTime: "8n",
+            maxDelayTime: 1,
+            wet: 0.3 // Subtle echo
+        });
+        const birdReverb = new Tone.Freeverb({
+            roomSize: 0.5,
+            wet: 0.2 // Subtle reverb
+        });
+
+        birdSynth.chain(birdDelay, birdReverb, Tone.Destination);
+        birdSynth.volume.value = -18; // Chirp volume
+
+        // Array of noise sources for playlist functionality
+        const noiseSourcesArray = [
+            { type: 'white', source: whiteNoise, name: 'White Noise' },
+            { type: 'rain', source: rainNoise, name: 'Rain' },
+            { type: 'ocean', source: oceanNoise, name: 'Ocean Waves' },
+            { type: 'forest', source: forestAmbientNoise, name: 'Forest Birds' }
+        ];
+
+        function renderNoisePlaylist() {
+            noisePlaylistContainer.innerHTML = ''; // Clear existing list
+            noiseSourcesArray.forEach((sound, index) => {
+                const button = document.createElement('button');
+                button.className = 'noise-playlist-item';
+                button.textContent = sound.name;
+                button.dataset.soundIndex = index; // Store the index for easy access
+
+                button.addEventListener('click', async () => {
+                    await playSoundByIndex(index);
+                });
+                noisePlaylistContainer.appendChild(button);
+            });
+            updatePlaylistActiveState(); // Set initial active state
+        }
+
+        async function playSoundByIndex(index) {
+            if (index < 0 || index >= noiseSourcesArray.length) return;
+
+            await Tone.start(); // Ensure audio context is running
+
+            stopAllNoiseInternal(); // Stop current active noise, but don't reset index or active state yet
+
+            const soundToPlay = noiseSourcesArray[index];
+            activeNoiseSource = soundToPlay.source;
+            currentPlayingSoundIndex = index;
+
+            activeNoiseSource.start();
+            isNoisePlaying = true;
+            playPauseIcon.classList.remove('fa-play');
+            playPauseIcon.classList.add('fa-pause'); // Change to pause icon
+
+            // Set volume slider to current Tone.Destination volume
+            volumeSlider.value = Tone.Destination.volume.value;
+            volumeValueSpan.textContent = `${Tone.Destination.volume.value.toFixed(0)} dB`;
+
+            // Special handling for forest birds to start chirps
+            if (soundToPlay.type === 'forest') {
+                startBirdChirps();
+            }
+            updatePlaylistActiveState();
+        }
+
+        function playNextSound() {
+            let nextIndex = currentPlayingSoundIndex + 1;
+            if (nextIndex >= noiseSourcesArray.length) {
+                nextIndex = 0; // Loop back to the beginning
+            }
+            playSoundByIndex(nextIndex);
+        }
+
+        function playPreviousSound() {
+            let prevIndex = currentPlayingSoundIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = noiseSourcesArray.length - 1; // Loop to the end
+            }
+            playSoundByIndex(prevIndex);
+        }
+
+        function startBirdChirps() {
+            // Clear any existing chirp interval
+            if (birdChirpInterval) {
+                clearInterval(birdChirpInterval);
+            }
+
+            // More varied and bird-like notes/frequencies
+            const birdNotes = ['C5', 'D#5', 'F5', 'G#5', 'A5', 'C6', 'D#6', 'F6'];
+            birdChirpInterval = setInterval(() => {
+                if (isNoisePlaying && activeNoiseSource === noiseSourcesArray.find(s => s.type === 'forest').source) {
+                    const randomNote = birdNotes[Math.floor(Math.random() * birdNotes.length)];
+                    const randomDuration = Math.random() * 0.2 + 0.1; // Chirp duration 0.1 to 0.3s
+                    const randomTimeOffset = Math.random() * 0.5; // Start time offset
+                    const randomDetune = Math.random() * 200 - 100; // -100 to +100 cents detune
+
+                    birdSynth.detune.value = randomDetune;
+                    birdSynth.triggerAttackRelease(randomNote, randomDuration, Tone.now() + randomTimeOffset);
+                }
+            }, Math.random() * 2000 + 1500); // Chirp every 1.5-3.5 seconds randomly
+        }
+
+        function stopBirdChirps() {
+            if (birdChirpInterval) {
+                clearInterval(birdChirpInterval);
+                birdChirpInterval = null;
+            }
+        }
+
+        function togglePlayPauseNoise() {
+            if (activeNoiseSource) {
+                if (isNoisePlaying) {
+                    activeNoiseSource.stop();
+                    isNoisePlaying = false;
+                    playPauseIcon.classList.remove('fa-pause');
+                    playPauseIcon.classList.add('fa-play'); // Change to play icon
+                    stopBirdChirps();
+                } else {
+                    activeNoiseSource.start();
+                    isNoisePlaying = true;
+                    playPauseIcon.classList.remove('fa-play');
+                    playPauseIcon.classList.add('fa-pause'); // Change to pause icon
+                    if (noiseSourcesArray[currentPlayingSoundIndex]?.type === 'forest') {
+                        startBirdChirps();
+                    }
+                }
+            } else if (noiseSourcesArray.length > 0) {
+                // If no sound is active, start the first one or the last played one
+                const startIndex = currentPlayingSoundIndex !== -1 ? currentPlayingSoundIndex : 0;
+                playSoundByIndex(startIndex);
+            }
+        }
+
+
+        function stopAllNoise() {
+            stopAllNoiseInternal(); // Call the internal function
+            // Reset volume slider to default
+            Tone.Destination.volume.value = -20; // Default master volume in dB
+            volumeSlider.value = -20; // Initialize slider to match
+            volumeValueSpan.textContent = `-20 dB`; // Update display
+            playPauseIcon.classList.remove('fa-pause');
+            playPauseIcon.classList.add('fa-play'); // Ensure play icon is shown
+            currentPlayingSoundIndex = -1; // Reset index
+            updatePlaylistActiveState(); // Clear active state on playlist
+        }
+
+        function stopAllNoiseInternal() {
+            // This function stops the audio without resetting the playlist state
+            if (activeNoiseSource) {
+                activeNoiseSource.stop();
+                activeNoiseSource = null;
+                isNoisePlaying = false;
+            }
+            stopBirdChirps(); // Always stop chirps when stopping all noise
+        }
+
+        function updatePlaylistActiveState() {
+            const playlistButtons = noisePlaylistContainer.querySelectorAll('.noise-playlist-item');
+            playlistButtons.forEach((button, index) => {
+                if (index === currentPlayingSoundIndex) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+
+        // Volume control: Controls the master output volume of Tone.js
+        volumeSlider.addEventListener('input', (event) => {
+            // Tone.js volume is in dB, so map slider value (-60 to 0)
+            const volume = parseFloat(event.target.value);
+            Tone.Destination.volume.value = volume;
+            volumeValueSpan.textContent = `${volume.toFixed(0)} dB`; // Update display, fixed to 0 decimal places
+        });
+
+        // Event Listeners for Noise Generator
+        stopNoiseButton.addEventListener('click', stopAllNoise);
+        playPauseNoiseButton.addEventListener('click', togglePlayPauseNoise); // Use the new button
+        prevNoiseButton.addEventListener('click', playPreviousSound);
+        nextNoiseButton.addEventListener('click', playNextSound);
+
+        // Initial volume setting for Tone.js master output
+        Tone.Destination.volume.value = -20; // Default master volume in dB
+        volumeSlider.value = -20; // Initialize slider to match
+        volumeValueSpan.textContent = `-20 dB`; // Initialize display
+        renderNoisePlaylist(); // Render the playlist on load
+
+
+        // --- Quick Notes Logic ---
+        const quickNotesTextarea = document.getElementById('quickNotesTextarea');
+        const clearNotesButton = document.getElementById('clearNotesButton');
+        const downloadPdfButton = document.getElementById('downloadPdfButton'); // New button reference
+
+        // Load notes from localStorage on startup
+        quickNotesTextarea.value = localStorage.getItem('neuroFocusQuickNotes') || '';
+
+        // Save notes to localStorage whenever the textarea content changes
+        quickNotesTextarea.addEventListener('input', () => {
+            localStorage.setItem('neuroFocusQuickNotes', quickNotesTextarea.value);
+        });
+
+        // Clear notes button
+        clearNotesButton.addEventListener('click', () => {
+            quickNotesTextarea.value = '';
+            localStorage.removeItem('neuroFocusQuickNotes');
+        });
+
+        // Download PDF button logic
+        downloadPdfButton.addEventListener('click', () => {
+            const notesContent = quickNotesTextarea.value;
+            if (!notesContent.trim()) {
+                showNotification('Notes are empty. Nothing to download.');
+                return;
+            }
+
+            // Create a new jsPDF instance
+            const doc = new jspdf.jsPDF();
+            doc.setFontSize(12);
+            let y = 10; // Initial Y position
+            const lineHeight = 10; // Line height
+            const margin = 10;
+            const maxWidth = doc.internal.pageSize.getWidth() - 2 * margin;
+
+            // Split text into lines that fit the page width
+            const lines = doc.splitTextToSize(notesContent, maxWidth);
+
+            // Add each line to the PDF, adding new pages as needed
+            lines.forEach(line => {
+                // Check if current line exceeds page height, add new page if so
+                if (y + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                    doc.addPage();
+                    y = margin; // Reset Y for new page
+                }
+                doc.text(line, margin, y);
+                y += lineHeight;
+            });
+
+            // Save the PDF
+            doc.save('NeuroFocus_Notes.pdf');
+        });
+
+        // --- Bookmarks Saver Logic ---
+        const bookmarkNameInput = document.getElementById('bookmarkNameInput');
+        const bookmarkUrlInput = document.getElementById('bookmarkUrlInput');
+        const addBookmarkButton = document.getElementById('addBookmarkButton');
+        const bookmarkList = document.getElementById('bookmarkList');
+
+        let bookmarks = JSON.parse(localStorage.getItem('neuroFocusBookmarks')) || [];
+
+        function saveBookmarks() {
+            localStorage.setItem('neuroFocusBookmarks', JSON.stringify(bookmarks));
+        }
+
+        function renderBookmarks() {
+            bookmarkList.innerHTML = ''; // Clear existing list
+            bookmarks.forEach((bookmark, index) => {
+                const listItem = document.createElement('div');
+                listItem.className = 'bookmark-item';
+
+                const bookmarkInfo = document.createElement('div');
+                bookmarkInfo.className = 'bookmark-info';
+
+                const bookmarkLink = document.createElement('a');
+                bookmarkLink.href = bookmark.url;
+                bookmarkLink.target = '_blank'; // Open in new tab
+                bookmarkLink.textContent = bookmark.name;
+                bookmarkInfo.appendChild(bookmarkLink);
+
+                const bookmarkUrlDisplay = document.createElement('span');
+                bookmarkUrlDisplay.className = 'bookmark-url';
+                bookmarkUrlDisplay.textContent = bookmark.url;
+                bookmarkInfo.appendChild(bookmarkUrlDisplay);
+
+                const bookmarkActions = document.createElement('div');
+                bookmarkActions.className = 'bookmark-actions';
+
+                const visitButton = document.createElement('button');
+                visitButton.textContent = 'Visit';
+                visitButton.className = 'button btn btn-sm';
+                visitButton.addEventListener('click', () => {
+                    window.open(bookmark.url, '_blank');
+                });
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'button btn btn-sm btn-danger';
+                deleteButton.addEventListener('click', () => {
+                    bookmarks.splice(index, 1);
+                    saveBookmarks();
+                    renderBookmarks();
+                });
+
+                bookmarkActions.appendChild(visitButton);
+                bookmarkActions.appendChild(deleteButton);
+
+                listItem.appendChild(bookmarkInfo);
+                listItem.appendChild(bookmarkActions);
+                bookmarkList.appendChild(listItem);
+            });
+        }
+
+        function addBookmark() {
+            const name = bookmarkNameInput.value.trim();
+            let url = bookmarkUrlInput.value.trim();
+
+            if (!name || !url) {
+                showNotification('Please enter both a name and a URL for the bookmark.');
+                return;
+            }
+
+            // Basic URL validation and add http if missing
+            if (!url.match(/^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9]+\.[^\s]{2,})$/i)) {
+                showNotification('Please enter a valid URL (e.g., https://example.com).');
+                return;
+            }
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+
+            bookmarks.push({ name, url });
+            bookmarkNameInput.value = '';
+            bookmarkUrlInput.value = '';
+            saveBookmarks();
+            renderBookmarks();
+        }
+
+        addBookmarkButton.addEventListener('click', addBookmark);
+        bookmarkUrlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addBookmark();
+            }
+        });
+
+        // Initial render of bookmarks
+        renderBookmarks();
+
+        // --- Daily Planner Logic ---
+        const planTextInput = document.getElementById('planTextInput');
+        const planDateInput = document.getElementById('planDateInput');
+        const addPlanButton = document.getElementById('addPlanButton');
+        const planList = document.getElementById('planList');
+        const downloadPlanPdfButton = document.getElementById('downloadPlanPdfButton');
+
+        let plannerTasks = JSON.parse(localStorage.getItem('neuroFocusPlannerTasks')) || {};
+        let currentSelectedDate = ''; // To keep track of the date currently being displayed
+
+        // Helper to format date to YYYY-MM-DD
+        function formatDate(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Set today's date as default in the input
+        const today = new Date();
+        planDateInput.value = formatDate(today);
+        currentSelectedDate = planDateInput.value;
+
+        function savePlannerTasks() {
+            localStorage.setItem('neuroFocusPlannerTasks', JSON.stringify(plannerTasks));
+        }
+
+        function renderPlanForDate(date) {
+            planList.innerHTML = ''; // Clear existing list
+            const tasksForDate = plannerTasks[date] || [];
+
+            if (tasksForDate.length === 0) {
+                const noTasksMessage = document.createElement('div');
+                noTasksMessage.className = 'text-center text-muted mt-3';
+                noTasksMessage.textContent = 'No plans for this date yet. Add one above!';
+                planList.appendChild(noTasksMessage);
+            } else {
+                tasksForDate.forEach(task => {
+                    const listItem = document.createElement('div');
+                    listItem.className = 'plan-item';
+
+                    const planInfo = document.createElement('div');
+                    planInfo.className = 'plan-info';
+                    planInfo.textContent = task.text;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.className = 'button btn btn-sm btn-danger';
+                    deleteButton.addEventListener('click', () => {
+                        deletePlanItem(date, task.id);
+                    });
+
+                    listItem.appendChild(planInfo);
+                    listItem.appendChild(deleteButton);
+                    planList.appendChild(listItem);
+                });
+            }
+        }
+
+        function addPlanItem() {
+            const taskText = planTextInput.value.trim();
+            const selectedDate = planDateInput.value;
+
+            if (!taskText || !selectedDate) {
+                showNotification('Please enter a plan item and select a date.');
+                return;
+            }
+
+            if (!plannerTasks[selectedDate]) {
+                plannerTasks[selectedDate] = [];
+            }
+
+            const newPlanId = Date.now().toString(); // Simple unique ID
+            plannerTasks[selectedDate].push({ id: newPlanId, text: taskText });
+            planTextInput.value = '';
+            savePlannerTasks();
+            renderPlanForDate(selectedDate); // Re-render for the current date
+        }
+
+        function deletePlanItem(date, taskId) {
+            if (plannerTasks[date]) {
+                plannerTasks[date] = plannerTasks[date].filter(task => task.id !== taskId);
+                if (plannerTasks[date].length === 0) {
+                    delete plannerTasks[date]; // Remove date entry if no tasks left
+                }
+                savePlannerTasks();
+                renderPlanForDate(date); // Re-render for the current date
+            }
+        }
+
+        function downloadPlanPdf() {
+            const dateToDownload = currentSelectedDate;
+            const tasks = plannerTasks[dateToDownload] || [];
+
+            if (tasks.length === 0) {
+                showNotification(`No plan items for ${dateToDownload} to download.`);
+                return;
+            }
+
+            const doc = new jspdf.jsPDF();
+            doc.setFontSize(16);
+            doc.text(`Daily Plan for ${dateToDownload}`, 10, 10);
+            doc.setFontSize(12);
+
+            let y = 20;
+            const lineHeight = 10;
+            const margin = 10;
+            const maxWidth = doc.internal.pageSize.getWidth() - 2 * margin;
+
+            tasks.forEach((task, index) => {
+                const line = `${index + 1}. ${task.text}`;
+                const splitText = doc.splitTextToSize(line, maxWidth);
+
+                splitText.forEach(segment => {
+                    if (y + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                        doc.addPage();
+                        y = margin;
+                    }
+                    doc.text(segment, margin, y);
+                    y += lineHeight;
+                });
+            });
+
+            doc.save(`Daily_Plan_${dateToDownload}.pdf`);
+        }
+
+        // Event Listeners for Daily Planner
+        addPlanButton.addEventListener('click', addPlanItem);
+        planTextInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addPlanItem();
+            }
+        });
+        planDateInput.addEventListener('change', (e) => {
+            currentSelectedDate = e.target.value;
+            renderPlanForDate(currentSelectedDate);
+        });
+        downloadPlanPdfButton.addEventListener('click', downloadPlanPdf);
+
+        // Initial render of today's plan
+        renderPlanForDate(currentSelectedDate);
+
+
+        // --- Initialize on DOMContentLoaded ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDailyStats(); // Load and display stats for the current day
+            // All other initial renders are already called at the end of their respective sections.
+        });
+
+    </script>
+</body>
+</html>
