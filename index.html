@@ -1,448 +1,434 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroFocus - Boost Your Productivity</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <!-- Google Fonts - Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        :root {
-            /* Dark Mode Variables - Matching NeuroFocus App */
-            --bg-gradient-start: #0d1117; /* Deep navy */
-            --bg-gradient-mid1: #121a24; /* Slightly lighter navy */
-            --bg-gradient-mid2: #172331; /* Another step lighter */
-            --bg-gradient-end: #1c2e3f; /* Blending */
-            --text-color-primary: #e2e8f0;
-            --text-color-secondary: #f8fafc;
-            --card-bg: rgba(31, 41, 55, 0.9); /* Slightly lighter dark gray for cards */
-            --card-border: rgba(144, 205, 244, 0.2);
-            --heading-color: #90cdf4;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuroFocus – Premium Productivity</title>
 
-            /* Button Colors - Consistent with App */
-            --button-primary-bg: #3182ce;
-            --button-primary-hover-bg: #2b6cb0;
-            --button-primary-border: rgba(49, 130, 206, 0.4);
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- AOS (Animate on Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 
-            --icon-color: #e2e8f0;
-            --footer-bg: rgba(45, 55, 72, 0.5);
-            --footer-border: rgba(144, 205, 244, 0.2);
-        }
+  <style>
+    /* Global box-sizing for responsive layouts */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    
+    :root {
+      /* Premium Dark Palette */
+      --bg-1: #0a0f1e;
+      --bg-2: #0d1226;
+      --bg-3: #101638;
+      --surface: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e6edf3;
+      --muted: #9fb0c0;
+      --accent: #7c5cff;   /* Royal violet */
+      --accent-2: #22d3ee; /* Aqua */
+      --accent-3: #f59e0b; /* Gold */
+      --glow: 0 0 24px rgba(124, 92, 255, 0.35), 0 0 48px rgba(34, 211, 238, 0.2);
+      --radius: 18px;
+    }
 
-        body.light-mode {
-            /* Light Mode Variables - Matching NeuroFocus App */
-            --bg-gradient-start: #f5f7fa; /* Very light gray/soft white */
-            --bg-gradient-mid1: #edf0f5; /* Slightly darker for gradient effect */
-            --bg-gradient-mid2: #e0e4eb; /* Another step darker */
-            --bg-gradient-end: #d1d6e0; /* Blending */
-            --text-color-primary: #2d3748;
-            --text-color-secondary: #4a5568;
-            --card-bg: rgba(255, 255, 255, 0.9); /* White cards */
-            --card-border: rgba(0, 0, 0, 0.1);
-            --heading-color: #3182ce;
+    html, body { height: 100%; }
 
-            /* Button Colors - Consistent with App */
-            --button-primary-bg: #3182ce;
-            --button-primary-hover-bg: #2b6cb0;
-            --button-primary-border: rgba(49, 130, 206, 0.4);
+    body {
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2) 40%, var(--bg-3));
+      background-size: 300% 300%;
+      animation: bgShift 20s ease-in-out infinite;
+      /* Ensure no horizontal overflow */
+      overflow-x: hidden;
+    }
 
-            --icon-color: #2d3748;
-            --footer-bg: rgba(255, 255, 255, 0.7);
-            --footer-border: rgba(0, 0, 0, 0.1);
-        }
+    @keyframes bgShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
-        body {
-            font-family: 'Poppins', sans-serif; /* Changed to Poppins */
-            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid1), var(--bg-gradient-mid2), var(--bg-gradient-end));
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-            color: var(--text-color-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
+    /* Subtle grain */
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: url("https://cdn.jsdelivr.net/gh/ayusharma/grainy-gradients/noise.png");
+      opacity: .08; mix-blend-mode: soft-light;
+    }
+    
+    /* Loading Animation Styles - FIXED */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-1);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+      visibility: visible;
+      opacity: 1;
+    }
 
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-        .navbar {
-            background-color: rgba(45, 55, 72, 0.5);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(144, 205, 244, 0.2);
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
+    .focus-loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
 
-        body.light-mode .navbar {
-            background-color: rgba(255, 255, 255, 0.7);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
+    .focus-loader .ring {
+      position: absolute;
+      inset: 0;
+      border: 3px solid transparent;
+      border-radius: 50%;
+      animation: focus-in 4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
 
-        .navbar-brand {
-            color: var(--heading-color) !important;
-            font-weight: 700;
-            font-size: 2rem; /* Slightly larger */
-            letter-spacing: 0.03em; /* Added letter-spacing */
-        }
+    .focus-loader .ring:nth-child(1) {
+      border-color: var(--accent);
+      animation-delay: 0s;
+    }
+    .focus-loader .ring:nth-child(2) {
+      border-color: var(--accent-2);
+      animation-delay: -1s;
+    }
+    .focus-loader .ring:nth-child(3) {
+      border-color: var(--accent);
+      animation-delay: -2s;
+    }
+    .focus-loader .ring:nth-child(4) {
+      border-color: var(--accent-2);
+      animation-delay: -3s;
+    }
 
-        .theme-icon-container {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
+    .focus-loader .dot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: var(--glow);
+    }
 
-        .theme-icon {
-            color: var(--icon-color);
-            transition: color 0.3s ease;
-            margin: 0 0.25rem;
-        }
+    @keyframes focus-in {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
 
-        .hero-section {
-            text-align: center; /* Ensures text content is centered */
-            padding: 4rem 1rem;
-            max-width: 900px;
-            margin: 2rem auto 0 auto; /* Centers the block horizontally */
-        }
 
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
+    .container-xl { position: relative; z-index: 2; }
+    /* Added this to prevent the container from overflowing on small screens */
+    .container-xl, .container-fluid {
+        padding-left: var(--bs-gutter-x, 0.75rem);
+        padding-right: var(--bs-gutter-x, 0.75rem);
+    }
 
-        .hero-section p {
-            font-size: 1.25rem;
-            color: var(--text-color-secondary);
-            margin-bottom: 2rem;
-        }
+    /* Navbar */
+    .navbar {
+      background: rgba(12, 16, 32, 0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .navbar-brand {
+      font-weight: 800; letter-spacing: .4px; font-size: 1.6rem;
+      background: linear-gradient(90deg, var(--text), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .nav-link { color: var(--muted); }
+    .nav-link:hover { color: var(--text); }
 
-        .btn-main {
-            background-color: var(--button-primary-bg);
-            color: white; /* Consistent white text */
-            padding: 0.8rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.3s ease;
-            border: 1px solid var(--button-primary-border); /* Consistent border */
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Soft shadow */
-        }
+    /* Buttons */
+    .btn-main {
+      --grad: linear-gradient(90deg, var(--accent), var(--accent-2));
+      background: var(--grad);
+      color: #0a0f1e; font-weight: 700;
+      border: 0; border-radius: 14px; padding: .9rem 1.4rem; letter-spacing: .3px;
+      box-shadow: var(--glow);
+      transition: transform .15s ease, box-shadow .3s ease, filter .3s ease;
+    }
+    .btn-main:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .btn-ghost {
+      background: transparent; color: var(--text); border: 1px solid var(--border);
+      border-radius: 14px; padding: .9rem 1.4rem; font-weight: 600;
+    }
+    .btn-ghost:hover { border-color: var(--accent-2); color: var(--accent-2); }
 
-        .btn-main:hover {
-            background-color: var(--button-primary-hover-bg);
-            transform: translateY(-2px); /* Consistent lift on hover */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-        }
+    /* Hero */
+    .hero {
+      padding: 6rem 0 3rem; position: relative;
+    }
+    .hero .badge {
+      background: rgba(124, 92, 255, .12); border: 1px solid rgba(124, 92, 255, .35);
+      color: #cfc8ff; border-radius: 999px; padding: .45rem .9rem; font-weight: 600; font-size: .9rem;
+    }
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw + 1rem, 4rem); font-weight: 800; line-height: 1.05;
+    }
+    .hero-title .gradient {
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-sub { color: var(--muted); font-size: 1.1rem; }
 
-        .btn-main:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
+    .hero-img {
+      position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+      box-shadow: 0 10px 40px rgba(0,0,0,.45);
+    }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-img::after {
+      content: ""; position: absolute; inset: 0; background: radial-gradient(60% 60% at 60% 40%, rgba(124,92,255,.25), transparent 60%);
+    }
 
-        .features-section {
-            padding: 3rem 1rem;
-            max-width: 1200px;
-            width: 100%;
-        }
+    .stat {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: .85rem 1rem; display: inline-flex; align-items: center; gap: .6rem;
+    }
+    .stat i { color: var(--accent-2); }
 
-        .features-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            margin-bottom: 3rem;
-        }
+    /* Feature Cards */
+    .features { padding: 3.5rem 0; }
+    .section-title { text-align: center; font-weight: 800; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); }
+    .section-sub { text-align: center; color: var(--muted); max-width: 760px; margin: .5rem auto 2rem; }
 
-        .feature-card {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--card-border);
-            border-radius: 1rem;
-            padding: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            text-align: center;
-            height: 100%; /* Ensure cards in a row have equal height */
-            display: flex;
-            flex-direction: column;
+    .card-feature {
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 1.6rem; height: 100%;
+      transition: transform .18s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card-feature:hover { transform: translateY(-6px); box-shadow: var(--glow); border-color: rgba(124, 92, 255, .35); }
+    .card-feature i { font-size: 1.8rem; color: var(--accent-2); }
+    .card-feature h3 { font-weight: 700; margin: .9rem 0 .5rem; }
+    .card-feature p { color: var(--muted); }
+    .thumb {
+      width: 100%; height: 160px; border-radius: 14px; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--border);
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* CTA */
+    .cta-wrap { padding: 4rem 0 5rem; }
+    .cta {
+      background: radial-gradient(120% 120% at 90% 10%, rgba(34,211,238,.15), transparent 60%),
+                  radial-gradient(140% 120% at 0% 100%, rgba(124,92,255,.18), transparent 50%),
+                  linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--border); border-radius: calc(var(--radius) + 6px);
+      padding: 2.2rem; text-align: center;
+    }
+    .cta h2 { font-weight: 800; }
+    .cta p { color: var(--muted); }
+
+    /* Footer - FIXED */
+    footer { border-top: 1px solid var(--border); background: rgba(12, 16, 32, 0.55); backdrop-filter: blur(8px); color: var(--muted); }
+    footer .d-flex {
+        /* Ensure footer content stacks nicely on mobile */
+        flex-direction: column;
+        text-align: center;
+    }
+    @media (min-width: 768px) {
+        footer .d-flex {
+            /* Go back to row layout on larger screens */
+            flex-direction: row;
             justify-content: space-between;
         }
+    }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.45);
-        }
-
-        .feature-card i {
-            font-size: 3rem;
-            color: var(--heading-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: var(--heading-color);
-            margin-bottom: 1rem;
-        }
-
-        .feature-card p {
-            font-size: 1rem;
-            color: var(--text-color-secondary);
-            flex-grow: 1; /* Allow text to take up available space */
-        }
-
-        .call-to-action-section {
-            text-align: center; /* Ensures text content is centered */
-            padding: 4rem 1rem;
-            max-width: 800px;
-            margin: 0 auto 4rem auto; /* Centers the block horizontally */
-        }
-
-        .call-to-action-section h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .call-to-action-section p {
-            font-size: 1.1rem;
-            color: var(--text-color-secondary);
-            margin-bottom: 2.5rem;
-        }
-
-        .footer {
-            width: 100%;
-            padding: 1.5rem 1rem;
-            background-color: var(--footer-bg);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid var(--footer-border);
-            color: var(--text-color-secondary);
-            text-align: center;
-            font-size: 0.9rem;
-            margin-top: auto; /* Pushes footer to the bottom */
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2.5rem;
-            }
-            .hero-section p {
-                font-size: 1rem;
-            }
-            .features-section h2, .call-to-action-section h2 {
-                font-size: 2rem;
-            }
-            .feature-card {
-                padding: 1.5rem;
-            }
-            .feature-card i {
-                font-size: 2.5rem;
-            }
-            .feature-card h3 {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero-section {
-                padding: 3rem 0.5rem;
-            }
-            .hero-section h1 {
-                font-size: 2rem;
-            }
-            .hero-section p {
-                font-size: 0.9rem;
-            }
-            .features-section {
-                padding: 2rem 0.5rem;
-            }
-            .features-section h2, .call-to-action-section h2 {
-                font-size: 1.8rem;
-            }
-            .feature-card {
-                padding: 1rem;
-            }
-            .feature-card i {
-                font-size: 2rem;
-            }
-            .feature-card h3 {
-                font-size: 1.3rem;
-            }
-            .btn-main {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    /* Small utilities */
+    .tilt { will-change: transform; }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg w-100">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">NeuroFocus</a>
-            <div class="theme-icon-container ms-auto">
-                <i id="switchToLightIcon" class="theme-icon fa-solid fa-sun"></i>
-                <i id="switchToDarkIcon" class="theme-icon fa-solid fa-moon" style="display: none;"></i>
-            </div>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="focus-loader">
+      <div class="dot"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand" href="#">NeuroFocus</a>
+      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter: invert(1)"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto gap-lg-3">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#how">How it works</a></li>
+          <li class="nav-item"><a class="btn btn-main" href="neurofocus-app.html">Get Started</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container-xl">
+      <div class="row align-items-center g-4">
+        <div class="col-12 col-lg-6" data-aos="fade-right">
+          <span class="badge">AI‑assisted Focus Workspace</span>
+          <h1 class="hero-title mt-3">Unlock <span class="gradient">deep work</span> with a calm, powerful dashboard.</h1>
+          <p class="hero-sub mt-3">Timers, tasks, notes, ambient sound and insights—beautifully crafted in one place so you can enter flow faster and stay there longer.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a class="btn btn-main" href="neurofocus-app.html"><i class="fa-solid fa-rocket me-2"></i>Launch App</a>
+            <a class="btn btn-ghost" href="#features"><i class="fa-regular fa-circle-play me-2"></i>See Features</a>
+          </div>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <div class="stat"><i class="fa-regular fa-clock"></i><span>Focus sessions tracked</span></div>
+            <div class="stat"><i class="fa-solid fa-shield-heart"></i><span>Privacy‑first, no logins</span></div>
+          </div>
         </div>
-    </nav>
+        <div class="col-12 col-lg-6" data-aos="fade-left">
+          <div class="hero-img tilt" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.2">
+            <img alt="Focused workspace" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=80" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <h1>Unlock Your Peak Productivity with NeuroFocus</h1>
-            <p>Your all-in-one digital workspace designed to enhance focus, streamline tasks, and track your progress. Achieve more, effortlessly.</p>
-            <div class="d-flex justify-content-center gap-3"> <!-- Added flex container for buttons -->
-                <a href="#features" class="btn-main">Explore Features</a>
-                <!-- New "Get Started Now" button -->
-                <a href="neurofocus-app.html" class="btn-main">Get Started Now</a> <!-- In a deployed scenario, replace '#' with the actual URL of your NeuroFocus app -->
-            </div>
-        </section>
+  <!-- FEATURES -->
+  <section id="features" class="features">
+    <div class="container-xl">
+      <h2 class="section-title" data-aos="fade-up">Key Features & Benefits</h2>
+      <p class="section-sub" data-aos="fade-up" data-aos-delay="80">Everything you need to plan your day, protect your attention, and measure real progress.</p>
 
-        <!-- Features Section -->
-        <section id="features" class="features-section">
-            <h2>Key Features & Benefits</h2>
-            <div class="row g-4">
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-clock"></i>
-                        <h3>Pomodoro Timer</h3>
-                        <p>Master your time with customizable work and break intervals. Boost focus, prevent burnout, and improve time management through structured sessions.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-list-check"></i>
-                        <h3>To-Do List</h3>
-                        <p>Organize your daily tasks, track completion, and maintain clarity on your priorities. Get a sense of accomplishment as you check things off.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-lightbulb"></i>
-                        <h3>Daily Motivation</h3>
-                        <p>Start your day inspired with fresh motivational quotes. Cultivate a positive mindset and stay energized throughout your work.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-volume-up"></i>
-                        <h3>Noise Generator</h3>
-                        <p>Create your ideal auditory environment. Play ambient sounds like rain, ocean waves, or forest birds to mask distractions and enhance concentration.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-sticky-note"></i>
-                        <h3>Quick Notes</h3>
-                        <p>Jot down ideas, thoughts, or important information instantly. Easily clear notes or download them as a PDF for safekeeping and review.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-bookmark"></i>
-                        <h3>Bookmarks Saver</h3>
-                        <p>Keep your essential web resources organized and easily accessible. Save time searching and quickly revisit important links.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-calendar-alt"></i>
-                        <h3>Daily Planner</h3>
-                        <p>Plan your days effectively by adding dated tasks and appointments. Get a clear overview of your schedule and download your plans as PDFs.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Productivity Dashboard</h3>
-                        <p>Visualize your progress with daily statistics on hours worked, tasks completed, and focus session success rate. Gain insights and stay motivated.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <i class="fas fa-ban"></i>
-                        <h3>Distraction Blocker (Conceptual)</h3>
-                        <p>While this feature typically requires a browser extension, NeuroFocus highlights the importance of minimizing online distractions for peak focus.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <div class="row g-4 mt-2">
+        <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="0">
+          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Pomodoro"/></div>
+            <i class="fa-regular fa-hourglass-half"></i>
+            <h3>Pomodoro Timer</h3>
+            <p>Customize work & break intervals to train deep focus, prevent burnout and build momentum.</p>
+          </article>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="60">
+          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tasks"/></div>
+            <i class="fa-solid fa-list-check"></i>
+            <h3>To‑Do & Planner</h3>
+            <p>Stay clear on priorities with a clean task list and daily planner that export to PDF.</p>
+          </article>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="120">
+          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1682125768864-c80b650614f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG11c2ljfGVufDB8fDB8fHww" alt="Motivation"/></div>
+            <i class="fa-regular fa-lightbulb"></i>
+            <h3>Daily Motivation</h3>
+            <p>Fresh quotes that nudge you into action and help you maintain a positive mindset.</p>
+          </article>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="180">
+          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Noise"/></div>
+            <i class="fa-solid fa-wave-square"></i>
+            <h3>Ambient Noise</h3>
+            <p>Mask distractions with rain, ocean, or café soundscapes to keep your attention anchored.</p>
+          </article>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="240">
+          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1683309567810-4d232ee83d2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Tm90ZXN8ZW58MHx8MHx8fDA%3D" alt="Notes"/></div>
+            <i class="fa-regular fa-note-sticky"></i>
+            <h3>Quick Notes</h3>
+            <p>Capture ideas instantly and download them as a PDF for safekeeping.</p>
+          </article>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1720503242835-b537741c9736?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZ3Jlc3MlMjBkYXNoYm9hcmR8ZW58MHx8MHx8fDA%3D" alt="Insights"/></div>
+            <i class="fa-solid fa-chart-line"></i>
+            <h3>Progress Insights</h3>
+            <p>See hours worked, tasks completed, and focus score at a glance to stay motivated.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Call to Action Section -->
-        <section class="call-to-action-section">
-            <h2>Ready to Transform Your Productivity?</h2>
-            <p>Join countless others who are already achieving more with NeuroFocus. Start your journey towards enhanced focus and efficiency today!</p>
-            <a href="neurofocus-app.html" class="btn-main">Get Started Now</a> <!-- Link to your main app if deployed -->
-        </section>
-    </main>
+  <!-- HOW IT WORKS / INFO -->
+  <section id="how" class="py-4">
+    <div class="container-xl">
+      <div class="row align-items-center g-4">
+        <div class="col-12 col-lg-6 order-2 order-lg-1" data-aos="fade-up">
+          <div class="hero-img"><img alt="Planning" src="https://sdmntpreastus.oaiusercontent.com/files/00000000-8ae8-61f9-9ddc-dd06105c7bac/raw?se=2025-08-15T11%3A29%3A22Z&sp=r&sv=2024-08-04&sr=b&scid=02e37c23-9d4f-5828-8007-75343f503e1e&skoid=f71d6506-3cac-498e-b62a-67f9228033a9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-15T10%3A17%3A00Z&ske=2025-08-16T10%3A17%3A00Z&sks=b&skv=2024-08-04&sig=4bfFlKf%2BfbfBBugJ1Ouhi1IGMWYT6YmERCteJzPvMLg%3D"/></div>
+        </div>
+        <div class="col-12 col-lg-6 order-1 order-lg-2" data-aos="fade-left">
+          <h2 class="section-title text-lg-start">Plan. Focus. Reflect.</h2>
+          <p class="mt-2" style="color:var(--muted)">NeuroFocus combines proven focus techniques with delightful design. Start a timer, organize your tasks, add ambient noise, and watch your productivity data grow—without creating an account.</p>
+          <div class="d-flex gap-3 mt-3 flex-wrap">
+            <span class="stat"><i class="fa-solid fa-lock"></i> Local‑first data</span>
+            <span class="stat"><i class="fa-solid fa-bolt"></i> Lightning fast</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
-        &copy; 2025 NeuroFocus. All rights reserved. Designed by Rupesh Verma.
-    </footer>
+  <!-- CTA -->
+  <section class="cta-wrap">
+    <div class="container-xl">
+      <div class="cta" data-aos="zoom-in">
+        <h2>Ready to transform your productivity?</h2>
+        <p class="mt-2">Join thousands focusing better with NeuroFocus. It’s free, private, and beautifully fast.</p>
+        <div class="mt-3 d-flex justify-content-center gap-3 flex-wrap">
+          <a class="btn btn-main" href="neurofocus-app.html"><i class="fa-solid fa-rocket me-2"></i>Get Started Now</a>
+          <a class="btn btn-ghost" href="#features"><i class="fa-regular fa-circle-question me-2"></i>Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Bootstrap JS CDN (Bundle with Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        // --- Theme Switch Logic (Copied from main app for consistency) ---
-        const themeIconContainer = document.querySelector('.theme-icon-container');
-        const switchToLightIcon = document.getElementById('switchToLightIcon'); // Sun icon
-        const switchToDarkIcon = document.getElementById('switchToDarkIcon');   // Moon icon
-        const body = document.body;
+  <footer class="py-4">
+    <div class="container-xl">
+      <div class="d-flex justify-content-between align-items-center gap-3">
+        <span class="text-center text-md-start w-100">© 2025 NeuroFocus • Designed by Rupesh Verma</span>
+        <div class="d-flex gap-3 flex-wrap justify-content-center">
+          <a class="nav-link" href="#features">Features</a>
+          <a class="nav-link" href="#how">How it works</a>
+          <a class="nav-link" href="neurofocus-app.html">App</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-        function applyTheme(theme) {
-            if (theme === 'light') {
-                body.classList.add('light-mode');
-                switchToLightIcon.style.display = 'none'; // Hide sun
-                switchToDarkIcon.style.display = 'block';  // Show moon
-                localStorage.setItem('neuroFocusTheme', 'light');
-            } else {
-                body.classList.remove('light-mode');
-                switchToLightIcon.style.display = 'block'; // Show sun
-                switchToDarkIcon.style.display = 'none';  // Hide moon
-                localStorage.setItem('neuroFocusTheme', 'dark');
-            }
-        }
-
-        // Check for saved theme preference on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('neuroFocusTheme');
-            if (savedTheme) {
-                applyTheme(savedTheme);
-            } else {
-                // Default to dark mode if no preference is saved
-                applyTheme('dark');
-            }
-        });
-
-        // Toggle theme on icon click
-        themeIconContainer.addEventListener('click', () => {
-            if (body.classList.contains('light-mode')) {
-                applyTheme('dark');
-            } else {
-                applyTheme('light');
-            }
-        });
-    </script>
+  <!-- JS: Bootstrap, AOS, VanillaTilt -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" xintegrity="sha512-9T9w4m3nZ0Q1bEygTdiqTn6bqf2Ucy2z2Y99o0jTq0xXf9Qkq1y1s1y5s5m9f4l4+0y0qUoQ2vA8zvYwQe0wA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
+    
+    // Hide loader when page is fully loaded
+    const loader = document.getElementById('loader');
+    window.addEventListener('load', () => {
+      // Add a small delay to ensure the animation is visible
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 1500); // 1500ms delay
+    });
+  </script>
 </body>
 </html>
