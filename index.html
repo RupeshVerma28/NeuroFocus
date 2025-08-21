@@ -36,16 +36,25 @@
       --radius: 18px;
     }
 
-    html, body { height: 100%; }
+    html {
+      /* FIX: Prevents white flash on mobile overscroll */
+      background-color: var(--bg-1);
+    }
+
+    html, body { 
+      height: 100%; 
+      /* Ensure no horizontal overflow */
+      overflow-x: hidden;
+    }
 
     body {
       font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
       color: var(--text);
       background: linear-gradient(135deg, var(--bg-1), var(--bg-2) 40%, var(--bg-3));
+      /* FIX: This prevents the background from repainting on scroll, fixing the white flash issue. */
+      background-attachment: fixed;
       background-size: 300% 300%;
       animation: bgShift 20s ease-in-out infinite;
-      /* Ensure no horizontal overflow */
-      overflow-x: hidden;
     }
 
     @keyframes bgShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
@@ -57,7 +66,7 @@
       opacity: .08; mix-blend-mode: soft-light;
     }
     
-    /* Loading Animation Styles - FIXED */
+    /* Loading Animation Styles */
     #loader {
       position: fixed;
       top: 0;
@@ -69,7 +78,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.7s ease, visibility 0.7s ease;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
       visibility: visible;
       opacity: 1;
     }
@@ -93,22 +102,10 @@
       animation: focus-in 4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    .focus-loader .ring:nth-child(1) {
-      border-color: var(--accent);
-      animation-delay: 0s;
-    }
-    .focus-loader .ring:nth-child(2) {
-      border-color: var(--accent-2);
-      animation-delay: -1s;
-    }
-    .focus-loader .ring:nth-child(3) {
-      border-color: var(--accent);
-      animation-delay: -2s;
-    }
-    .focus-loader .ring:nth-child(4) {
-      border-color: var(--accent-2);
-      animation-delay: -3s;
-    }
+    .focus-loader .ring:nth-child(1) { border-color: var(--accent); animation-delay: 0s; }
+    .focus-loader .ring:nth-child(2) { border-color: var(--accent-2); animation-delay: -1s; }
+    .focus-loader .ring:nth-child(3) { border-color: var(--accent); animation-delay: -2s; }
+    .focus-loader .ring:nth-child(4) { border-color: var(--accent-2); animation-delay: -3s; }
 
     .focus-loader .dot {
       position: absolute;
@@ -123,28 +120,22 @@
     }
 
     @keyframes focus-in {
-      0% {
-        transform: scale(0);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1.5);
-        opacity: 0;
-      }
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(1.5); opacity: 0; }
     }
 
 
     .container-xl { position: relative; z-index: 2; }
-    /* Added this to prevent the container from overflowing on small screens */
     .container-xl, .container-fluid {
-        padding-left: var(--bs-gutter-x, 0.75rem);
-        padding-right: var(--bs-gutter-x, 0.75rem);
+        padding-left: var(--bs-gutter-x, 1rem);
+        padding-right: var(--bs-gutter-x, 1rem);
     }
 
     /* Navbar */
     .navbar {
       background: rgba(12, 16, 32, 0.6);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); /* Safari support */
       border-bottom: 1px solid var(--border);
     }
     .navbar-brand {
@@ -154,11 +145,18 @@
     }
     .nav-link { color: var(--muted); }
     .nav-link:hover { color: var(--text); }
+    
+    /* IMPROVEMENT: Make navbar toggler more visible */
+    .navbar-toggler {
+        border: 1px solid var(--border);
+    }
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.25rem rgba(124, 92, 255, 0.5);
+    }
 
     /* Buttons */
     .btn-main {
-      --grad: linear-gradient(90deg, var(--accent), var(--accent-2));
-      background: var(--grad);
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
       color: #0a0f1e; font-weight: 700;
       border: 0; border-radius: 14px; padding: .9rem 1.4rem; letter-spacing: .3px;
       box-shadow: var(--glow);
@@ -173,14 +171,15 @@
 
     /* Hero */
     .hero {
-      padding: 6rem 0 3rem; position: relative;
+      padding: 5rem 0 3rem; 
+      position: relative;
     }
     .hero .badge {
       background: rgba(124, 92, 255, .12); border: 1px solid rgba(124, 92, 255, .35);
       color: #cfc8ff; border-radius: 999px; padding: .45rem .9rem; font-weight: 600; font-size: .9rem;
     }
     .hero-title {
-      font-size: clamp(2.2rem, 4vw + 1rem, 4rem); font-weight: 800; line-height: 1.05;
+      font-size: clamp(2.2rem, 4vw + 1rem, 4rem); font-weight: 800; line-height: 1.1;
     }
     .hero-title .gradient {
       background: linear-gradient(90deg, var(--accent-2), var(--accent));
@@ -204,7 +203,7 @@
 
     /* Feature Cards */
     .features { padding: 3.5rem 0; }
-    .section-title { text-align: center; font-weight: 800; font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); }
+    .section-title { text-align: center; font-weight: 800; font-size: clamp(1.8rem, 1.2rem + 1.5vw, 2.6rem); }
     .section-sub { text-align: center; color: var(--muted); max-width: 760px; margin: .5rem auto 2rem; }
 
     .card-feature {
@@ -234,16 +233,26 @@
     .cta h2 { font-weight: 800; }
     .cta p { color: var(--muted); }
 
-    /* Footer - FIXED */
-    footer { border-top: 1px solid var(--border); background: rgba(12, 16, 32, 0.55); backdrop-filter: blur(8px); color: var(--muted); }
-    footer .d-flex {
-        /* Ensure footer content stacks nicely on mobile */
-        flex-direction: column;
-        text-align: center;
+    /* Footer */
+    footer { 
+      border-top: 1px solid var(--border); 
+      background: rgba(12, 16, 32, 0.55); 
+      backdrop-filter: blur(8px); 
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--muted); 
     }
+    
+    /* IMPROVEMENT: Better footer stacking on mobile */
+    footer .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
     @media (min-width: 768px) {
-        footer .d-flex {
-            /* Go back to row layout on larger screens */
+        footer .footer-content {
             flex-direction: row;
             justify-content: space-between;
         }
@@ -269,15 +278,15 @@
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-xl">
-      <a class="navbar-brand" href="#">NeuroFocus</a>
-      <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" style="filter: invert(1)"></span>
+      <a class="navbar-brand" href="#">एकाग्र</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter: invert(1) brightness(1.5);"></span>
       </button>
       <div class="collapse navbar-collapse" id="nav">
-        <ul class="navbar-nav ms-auto gap-lg-3">
+        <ul class="navbar-nav ms-auto gap-lg-3 align-items-center">
           <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
           <li class="nav-item"><a class="nav-link" href="#how">How it works</a></li>
-          <li class="nav-item"><a class="btn btn-main" href="neurofocus-app.html">Get Started</a></li>
+          <li class="nav-item mt-2 mt-lg-0"><a class="btn btn-main" href="neurofocus-app.html">Get Started</a></li>
         </ul>
       </div>
     </div>
@@ -286,22 +295,22 @@
   <!-- HERO -->
   <header class="hero">
     <div class="container-xl">
-      <div class="row align-items-center g-4">
-        <div class="col-12 col-lg-6" data-aos="fade-right">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-lg-6 text-center text-lg-start" data-aos="fade-right">
           <span class="badge">AI‑assisted Focus Workspace</span>
           <h1 class="hero-title mt-3">Unlock <span class="gradient">deep work</span> with a calm, powerful dashboard.</h1>
           <p class="hero-sub mt-3">Timers, tasks, notes, ambient sound and insights—beautifully crafted in one place so you can enter flow faster and stay there longer.</p>
-          <div class="d-flex flex-wrap gap-3 mt-4">
+          <div class="d-flex flex-wrap gap-3 mt-4 justify-content-center justify-content-lg-start">
             <a class="btn btn-main" href="neurofocus-app.html"><i class="fa-solid fa-rocket me-2"></i>Launch App</a>
             <a class="btn btn-ghost" href="#features"><i class="fa-regular fa-circle-play me-2"></i>See Features</a>
           </div>
-          <div class="d-flex flex-wrap gap-3 mt-4">
+          <div class="d-flex flex-wrap gap-3 mt-4 justify-content-center justify-content-lg-start">
             <div class="stat"><i class="fa-regular fa-clock"></i><span>Focus sessions tracked</span></div>
             <div class="stat"><i class="fa-solid fa-shield-heart"></i><span>Privacy‑first, no logins</span></div>
           </div>
         </div>
         <div class="col-12 col-lg-6" data-aos="fade-left">
-          <div class="hero-img tilt" data-tilt data-tilt-max="8" data-tilt-speed="500" data-tilt-glare="true" data-tilt-max-glare="0.2">
+          <div class="hero-img tilt">
             <img alt="Focused workspace" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=80" />
           </div>
         </div>
@@ -316,49 +325,50 @@
       <p class="section-sub" data-aos="fade-up" data-aos-delay="80">Everything you need to plan your day, protect your attention, and measure real progress.</p>
 
       <div class="row g-4 mt-2">
+        <!-- IMPROVEMENT: Added loading="lazy" and decoding="async" for better image performance -->
         <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="0">
-          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
-            <div class="thumb"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Pomodoro"/></div>
+          <article class="card-feature h-100 tilt">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80" alt="Pomodoro" loading="lazy" decoding="async"/></div>
             <i class="fa-regular fa-hourglass-half"></i>
             <h3>Pomodoro Timer</h3>
             <p>Customize work & break intervals to train deep focus, prevent burnout and build momentum.</p>
           </article>
         </div>
         <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="60">
-          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
-            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tasks"/></div>
+          <article class="card-feature h-100 tilt">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1684330691489-2eb2620db612?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Tasks" loading="lazy" decoding="async"/></div>
             <i class="fa-solid fa-list-check"></i>
             <h3>To‑Do & Planner</h3>
             <p>Stay clear on priorities with a clean task list and daily planner that export to PDF.</p>
           </article>
         </div>
         <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="120">
-          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
-            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1682125768864-c80b650614f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG11c2ljfGVufDB8fDB8fHww" alt="Motivation"/></div>
+          <article class="card-feature h-100 tilt">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1682125768864-c80b650614f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG11c2ljfGVufDB8fDB8fHww" alt="Motivation" loading="lazy" decoding="async"/></div>
             <i class="fa-regular fa-lightbulb"></i>
             <h3>Daily Motivation</h3>
             <p>Fresh quotes that nudge you into action and help you maintain a positive mindset.</p>
           </article>
         </div>
         <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="180">
-          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
-            <div class="thumb"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Noise"/></div>
+          <article class="card-feature h-100 tilt">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" alt="Noise" loading="lazy" decoding="async"/></div>
             <i class="fa-solid fa-wave-square"></i>
             <h3>Ambient Noise</h3>
             <p>Mask distractions with rain, ocean, or café soundscapes to keep your attention anchored.</p>
           </article>
         </div>
         <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="240">
-          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
-            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1683309567810-4d232ee83d2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Tm90ZXN8ZW58MHx8MHx8fDA%3D" alt="Notes"/></div>
+          <article class="card-feature h-100 tilt">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1683309567810-4d232ee83d2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Tm90ZXN8ZW58MHx8MHx8fDA%3D" alt="Notes" loading="lazy" decoding="async"/></div>
             <i class="fa-regular fa-note-sticky"></i>
             <h3>Quick Notes</h3>
             <p>Capture ideas instantly and download them as a PDF for safekeeping.</p>
           </article>
         </div>
         <div class="col-12 col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="300">
-          <article class="card-feature h-100 tilt" data-tilt data-tilt-max="6">
-            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1720503242835-b537741c9736?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZ3Jlc3MlMjBkYXNoYm9hcmR8ZW58MHx8MHx8fDA%3D" alt="Insights"/></div>
+          <article class="card-feature h-100 tilt">
+            <div class="thumb"><img src="https://plus.unsplash.com/premium_photo-1720503242835-b537741c9736?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZ3Jlc3MlMjBkYXNoYm9hcmR8ZW58MHx8MHx8fDA%3D" alt="Insights" loading="lazy" decoding="async"/></div>
             <i class="fa-solid fa-chart-line"></i>
             <h3>Progress Insights</h3>
             <p>See hours worked, tasks completed, and focus score at a glance to stay motivated.</p>
@@ -371,14 +381,14 @@
   <!-- HOW IT WORKS / INFO -->
   <section id="how" class="py-4">
     <div class="container-xl">
-      <div class="row align-items-center g-4">
+      <div class="row align-items-center g-5">
         <div class="col-12 col-lg-6 order-2 order-lg-1" data-aos="fade-up">
-          <div class="hero-img"><img alt="Planning" src="https://sdmntpreastus.oaiusercontent.com/files/00000000-8ae8-61f9-9ddc-dd06105c7bac/raw?se=2025-08-15T11%3A29%3A22Z&sp=r&sv=2024-08-04&sr=b&scid=02e37c23-9d4f-5828-8007-75343f503e1e&skoid=f71d6506-3cac-498e-b62a-67f9228033a9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-08-15T10%3A17%3A00Z&ske=2025-08-16T10%3A17%3A00Z&sks=b&skv=2024-08-04&sig=4bfFlKf%2BfbfBBugJ1Ouhi1IGMWYT6YmERCteJzPvMLg%3D"/></div>
+          <div class="hero-img"><img alt="Planning" src="ekagra.png" loading="lazy" decoding="async"/></div>
         </div>
-        <div class="col-12 col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-          <h2 class="section-title text-lg-start">Plan. Focus. Reflect.</h2>
+        <div class="col-12 col-lg-6 order-1 order-lg-2 text-center text-lg-start" data-aos="fade-left">
+          <h2 class="section-title text-center text-lg-start">Plan. Focus. Reflect.</h2>
           <p class="mt-2" style="color:var(--muted)">NeuroFocus combines proven focus techniques with delightful design. Start a timer, organize your tasks, add ambient noise, and watch your productivity data grow—without creating an account.</p>
-          <div class="d-flex gap-3 mt-3 flex-wrap">
+          <div class="d-flex gap-3 mt-3 flex-wrap justify-content-center justify-content-lg-start">
             <span class="stat"><i class="fa-solid fa-lock"></i> Local‑first data</span>
             <span class="stat"><i class="fa-solid fa-bolt"></i> Lightning fast</span>
           </div>
@@ -403,8 +413,8 @@
 
   <footer class="py-4">
     <div class="container-xl">
-      <div class="d-flex justify-content-between align-items-center gap-3">
-        <span class="text-center text-md-start w-100">© 2025 NeuroFocus • Designed by Rupesh Verma</span>
+      <div class="footer-content">
+        <span>© 2025 NeuroFocus • Designed by Rupesh Verma</span>
         <div class="d-flex gap-3 flex-wrap justify-content-center">
           <a class="nav-link" href="#features">Features</a>
           <a class="nav-link" href="#how">How it works</a>
@@ -417,18 +427,43 @@
   <!-- JS: Bootstrap, AOS, VanillaTilt -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" xintegrity="sha512-9T9w4m3nZ0Q1bEygTdiqTn6bqf2Ucy2z2Y99o0jTq0xXf9Qkq1y1s1y5s5m9f4l4+0y0qUoQ2vA8zvYwQe0wA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js" crossorigin="anonymous"></script>
   <script>
-    AOS.init({ duration: 800, once: true, easing: 'ease-out-cubic' });
-    
     // Hide loader when page is fully loaded
     const loader = document.getElementById('loader');
     window.addEventListener('load', () => {
-      // Add a small delay to ensure the animation is visible
+      // IMPROVEMENT: Reduced delay for a faster perceived load time
       setTimeout(() => {
         loader.classList.add('hidden');
-      }, 1500); // 1500ms delay
+      }, 500); 
     });
+
+    // IMPROVEMENT: Conditionally initialize performance-heavy scripts
+    // This prevents lag and scrolling issues on mobile devices.
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+
+    if (isDesktop) {
+      // Initialize AOS (Animate on Scroll) for desktop only
+      AOS.init({ 
+        duration: 800, 
+        once: true, 
+        easing: 'ease-out-cubic' 
+      });
+
+      // Initialize Vanilla Tilt for desktop only
+      VanillaTilt.init(document.querySelectorAll(".tilt"), {
+        max: 8,
+        speed: 500,
+        glare: true,
+        "max-glare": 0.2
+      });
+    } else {
+      // On mobile, remove the data-aos attributes to prevent any potential conflicts
+      // or flashes of un-animated content.
+      document.querySelectorAll('[data-aos]').forEach(el => {
+        el.removeAttribute('data-aos');
+      });
+    }
   </script>
 </body>
 </html>
