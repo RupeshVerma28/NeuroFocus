@@ -44,9 +44,18 @@
 
     /* General body styling */
     * { box-sizing: border-box; }
+    
+    /* IMPROVEMENT: Smooth scrolling and overscroll background color */
+    html {
+      background-color: var(--bg-gradient-start);
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
       background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      /* IMPROVEMENT: Fixed background for smooth scrolling performance */
+      background-attachment: fixed;
       background-size: 200% 200%;
       animation: gradientAnimation 10s ease infinite;
       color: var(--text-color-primary);
@@ -66,7 +75,17 @@
 
     .container { max-width: 1200px; padding: 1rem; width: 100%; }
 
-    .tool-card { background: var(--tool-card-bg); border: 1px solid var(--tool-card-border); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 8px 32px rgba(0,0,0,.35); height: 100%; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .tool-card { 
+      background: var(--tool-card-bg); 
+      border: 1px solid var(--tool-card-border); 
+      border-radius: 1rem; 
+      padding: 1.5rem; 
+      box-shadow: 0 8px 32px rgba(0,0,0,.35); 
+      height: 100%; 
+      transition: transform 0.2s ease, box-shadow 0.2s ease; 
+      /* IMPROVEMENT: Hint to the browser about upcoming transform changes */
+      will-change: transform;
+    }
     .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.4); }
     .tool-card h2 { color: var(--heading-color); font-weight: 700; font-size: 1.35rem; margin-bottom: 0; }
 
@@ -338,6 +357,8 @@
     const customM = $('#customMinutes');
     const customS = $('#customSeconds');
     const setCustomBtn = $('#setCustom');
+    // ADDITION: Create an Audio object for the timer sound
+    const timerEndSound = new Audio('audio/timeout.wav');
 
     const MODES = { work: 25*60, short: 5*60, long: 15*60 };
 
@@ -370,6 +391,8 @@
         timerState.remaining = Math.ceil(remainMs/1000);
         if(remainMs <= 0){
           timerState.running = false;
+          // ADDITION: Play sound when timer ends
+          timerEndSound.play();
           // session completed
           const lenHrs = (timerState.sessionLen/3600);
           const st = statsToday();
@@ -437,7 +460,7 @@
     // ---------- MP3-based Noise Generator ----------
     const tracks = [
       { src:'Audio/rain.mp3', name:'Sleepy Rain', meta:'Cozy storm', cover:'https://images.unsplash.com/photo-1623567932970-576132e5d056?w=600&auto=format&fit=crop&q=60' },
-      { src:'Audio/cosmcocean.mp3', name:'Cosmic Ocean', meta:'Shoreline swells', cover:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop' },
+      { src:'Audio/cosmcocean.mp3', name:'Cosmic Ocean', meta:'Shoreline swells', cover:'https://images.unsplash.com/photo-1608178398319-48f814d0750c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwyMTI2NjN8fGVufDB8fHx8fA%3D%3D' },
       { src:'Audio/ForestBirds.mp3', name:'Forest Birds', meta:'Woodland ambience', cover:'https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&auto=format&fit=crop&q=60' },
       { src:'Audio/CoffeShop.mp3', name:'Coffee Shop', meta:'Low chatter', cover:'https://images.unsplash.com/photo-1542372147193-a7aca54189cd?w=600&auto=format&fit=crop&q=60' },
       { src:'Audio/flowing river.mp3', name:'Flowing River', meta:'Calm stream', cover:'https://images.unsplash.com/photo-1536691878009-a3d068087275?w=600&auto=format&fit=crop&q=60' },
