@@ -1,160 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>एकाग्र - App</title>
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
-  <!-- Fonts / Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- jsPDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    /* Root variables updated to match the new homepage theme.
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>एकाग्र - App</title>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- Fonts / Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+      /* Root variables updated to match the new homepage theme.
        Colors are now brighter and more vibrant for a modern, high-contrast look.
     */
-    :root {
-      --bg-gradient-start: #0a0c1c;
-      --bg-gradient-end: #12142b;
-      --text-color-primary: #e2e8f0;
-      --text-color-secondary: #ffffff;
-      --heading-color: #818cf8; /* A vibrant indigo for headings */
-      --tool-card-bg: rgba(24, 26, 48, 0.7);
-      --tool-card-border: rgba(129, 140, 248, 0.2);
-      --input-bg: rgba(49, 46, 129, 0.3);
-      --input-border: rgba(129, 140, 248, 0.4);
-      --scrollbar-track: rgba(49, 46, 129, 0.2);
-      --scrollbar-thumb: rgba(129, 140, 248, 0.6);
-      --button-primary-bg: #6366f1; /* Main accent indigo */
-      --button-primary-hover-bg: #4f46e5;
-      --button-success-bg: #22c55e;
-      --button-success-hover-bg: #16a34a;
-      --button-warning-bg: #f59e0b;
-      --button-warning-hover-bg: #d97706;
-      --button-danger-bg: #ef4444;
-      --button-danger-hover-bg: #dc2626;
-      --navbar-bg: rgba(10, 12, 28, 0.75);
-      --navbar-border: rgba(129, 140, 248, 0.2);
-      --footer-bg: rgba(10, 12, 28, 0.75);
-      --footer-border: rgba(129, 140, 248, 0.2);
-      --slider-thumb: #818cf8;
-    }
+      :root {
+        --bg-gradient-start: #0a0c1c;
+        --bg-gradient-end: #12142b;
+        --text-color-primary: #e2e8f0;
+        --text-color-secondary: #ffffff;
+        --heading-color: #818cf8; /* A vibrant indigo for headings */
+        --tool-card-bg: rgba(24, 26, 48, 0.7);
+        --tool-card-border: rgba(129, 140, 248, 0.2);
+        --input-bg: rgba(49, 46, 129, 0.3);
+        --input-border: rgba(129, 140, 248, 0.4);
+        --scrollbar-track: rgba(49, 46, 129, 0.2);
+        --scrollbar-thumb: rgba(129, 140, 248, 0.6);
+        --button-primary-bg: #6366f1; /* Main accent indigo */
+        --button-primary-hover-bg: #4f46e5;
+        --button-success-bg: #22c55e;
+        --button-success-hover-bg: #16a34a;
+        --button-warning-bg: #f59e0b;
+        --button-warning-hover-bg: #d97706;
+        --button-danger-bg: #ef4444;
+        --button-danger-hover-bg: #dc2626;
+        --navbar-bg: rgba(10, 12, 28, 0.75);
+        --navbar-border: rgba(129, 140, 248, 0.2);
+        --footer-bg: rgba(10, 12, 28, 0.75);
+        --footer-border: rgba(129, 140, 248, 0.2);
+        --slider-thumb: #818cf8;
+      }
 
-    /* General body styling */
-    * { box-sizing: border-box; }
-    
-    /* IMPROVEMENT: Smooth scrolling and overscroll background color */
-    html {
-      background-color: var(--bg-gradient-start);
-      scroll-behavior: smooth;
-    }
+      /* General body styling */
+      * {
+        box-sizing: border-box;
+      }
 
-    body {
-      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-      /* IMPROVEMENT: Fixed background for smooth scrolling performance */
-      background-attachment: fixed;
-      background-size: 200% 200%;
-      animation: gradientAnimation 10s ease infinite;
-      color: var(--text-color-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    @keyframes gradientAnimation { 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+      /* IMPROVEMENT: Smooth scrolling and overscroll background color */
+      html {
+        background-color: var(--bg-gradient-start);
+        scroll-behavior: smooth;
+      }
 
-    /* Component styling */
-    .navbar { background: var(--navbar-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--navbar-border); }
-    .navbar-brand { font-weight: 800; letter-spacing: .03em; color: var(--text-color-secondary) !important; font-size: 1.5rem;}
+      body {
+        font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+          "Segoe UI Emoji";
+        background: linear-gradient(
+          135deg,
+          var(--bg-gradient-start),
+          var(--bg-gradient-end)
+        );
+        /* IMPROVEMENT: Fixed background for smooth scrolling performance */
+        background-attachment: fixed;
+        background-size: 200% 200%;
+        animation: gradientAnimation 10s ease infinite;
+        color: var(--text-color-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      @keyframes gradientAnimation {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-    .hero { text-align: center; padding: 2rem 1rem 0; margin: 0 auto 1rem; max-width: 1200px; }
-    .hero-title { font-size: clamp(2.25rem, 6vw, 3.5rem); font-weight: 800; letter-spacing: .02em; color: var(--text-color-secondary); }
-    .hero-sub { color: var(--text-color-primary); opacity: .9; }
+      /* Component styling */
+      .navbar {
+        background: var(--navbar-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--navbar-border);
+      }
+      .navbar-brand {
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        color: var(--text-color-secondary) !important;
+        font-size: 1.5rem;
+      }
 
-    .container { max-width: 1200px; padding: 1rem; width: 100%; }
+      .hero {
+        text-align: center;
+        padding: 2rem 1rem 0;
+        margin: 0 auto 1rem;
+        max-width: 1200px;
+      }
+      .hero-title {
+        font-size: clamp(2.25rem, 6vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        color: var(--text-color-secondary);
+      }
+      .hero-sub {
+        color: var(--text-color-primary);
+        opacity: 0.9;
+      }
 
-    .tool-card { 
-      background: var(--tool-card-bg); 
-      border: 1px solid var(--tool-card-border); 
-      border-radius: 1rem; 
-      padding: 1.5rem; 
-      box-shadow: 0 8px 32px rgba(0,0,0,.35); 
-      height: 100%; 
-      transition: transform 0.2s ease, box-shadow 0.2s ease; 
-      /* IMPROVEMENT: Hint to the browser about upcoming transform changes */
-      will-change: transform;
-    }
-    .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.4); }
-    .tool-card h2 { color: var(--heading-color); font-weight: 700; font-size: 1.35rem; margin-bottom: 0; }
+      .container {
+        max-width: 1200px;
+        padding: 1rem;
+        width: 100%;
+      }
 
-    .btn { color: #fff; border: 0; border-radius: .75rem; font-weight: 600; padding: 0.6rem 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,.25); transition: background-color 0.2s ease, transform 0.2s ease, background-image 0.2s ease; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary { background-color: var(--button-primary-bg); }
-    .btn-primary:hover { background-color: var(--button-primary-hover-bg); }
-    .btn-success { background-color: var(--button-success-bg); }
-    .btn-success:hover { background-color: var(--button-success-hover-bg); }
-    .btn-warning { background-color: var(--button-warning-bg); color:#111; }
-    .btn-warning:hover { background-color: var(--button-warning-hover-bg); color:#111; }
-    .btn-danger { background-color: var(--button-danger-bg); }
-    .btn-danger:hover { background-color: var(--button-danger-hover-bg); }
-    .btn-gradient {
+      .tool-card {
+        background: var(--tool-card-bg);
+        border: 1px solid var(--tool-card-border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+        height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        /* IMPROVEMENT: Hint to the browser about upcoming transform changes */
+        will-change: transform;
+      }
+      .tool-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      }
+      .tool-card h2 {
+        color: var(--heading-color);
+        font-weight: 700;
+        font-size: 1.35rem;
+        margin-bottom: 0;
+      }
+
+      .btn {
+        color: #fff;
+        border: 0;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        padding: 0.6rem 1.2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        transition: background-color 0.2s ease, transform 0.2s ease,
+          background-image 0.2s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn-primary {
+        background-color: var(--button-primary-bg);
+      }
+      .btn-primary:hover {
+        background-color: var(--button-primary-hover-bg);
+      }
+      .btn-success {
+        background-color: var(--button-success-bg);
+      }
+      .btn-success:hover {
+        background-color: var(--button-success-hover-bg);
+      }
+      .btn-warning {
+        background-color: var(--button-warning-bg);
+        color: #111;
+      }
+      .btn-warning:hover {
+        background-color: var(--button-warning-hover-bg);
+        color: #111;
+      }
+      .btn-danger {
+        background-color: var(--button-danger-bg);
+      }
+      .btn-danger:hover {
+        background-color: var(--button-danger-hover-bg);
+      }
+      .btn-gradient {
         background-image: linear-gradient(to right, #6366f1, #8b5cf6);
         border: none;
-    }
-    .btn-gradient:hover {
+      }
+      .btn-gradient:hover {
         background-image: linear-gradient(to right, #4f46e5, #7c3aed);
-    }
+      }
 
-    .input-field { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-color-primary) !important; border-radius: .5rem; padding: .5rem 1rem; }
-    .input-field:focus { box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.4); background-color: rgba(49, 46, 129, 0.5); }
-    .input-field::placeholder { color: var(--text-color-primary); opacity: 0.6; }
+      .input-field {
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--text-color-primary) !important;
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+      }
+      .input-field:focus {
+        box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.4);
+        background-color: rgba(49, 46, 129, 0.5);
+      }
+      .input-field::placeholder {
+        color: var(--text-color-primary);
+        opacity: 0.6;
+      }
 
+      .list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .list-item.completed {
+        text-decoration: line-through;
+        opacity: 0.6;
+      }
 
-    .list-item { display:flex; align-items:center; justify-content:space-between; gap:.75rem; background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:.5rem; padding:.5rem .75rem; margin-bottom: 0.5rem; }
-    .list-item.completed { text-decoration: line-through; opacity:.6; }
+      .scroll-y {
+        max-height: 220px;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+      }
+      .scroll-y::-webkit-scrollbar {
+        width: 8px;
+      }
+      .scroll-y::-webkit-scrollbar-track {
+        background: var(--scrollbar-track);
+        border-radius: 10px;
+      }
+      .scroll-y::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb);
+        border-radius: 10px;
+      }
 
-    .scroll-y { max-height: 220px; overflow-y: auto; padding-right: .5rem; }
-    .scroll-y::-webkit-scrollbar{ width:8px } .scroll-y::-webkit-scrollbar-track{ background:var(--scrollbar-track); border-radius:10px } .scroll-y::-webkit-scrollbar-thumb{ background:var(--scrollbar-thumb); border-radius:10px }
+      .playlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+      }
+      .track-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0.9rem;
+        padding: 0.75rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease,
+          background 0.2s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .track-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        background: rgba(255, 255, 255, 0.07);
+      }
+      .cover {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        border-radius: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .track-name {
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .track-meta {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+      .track-card.active {
+        outline: 3px solid var(--heading-color);
+        box-shadow: 0 0 20px rgba(129, 140, 248, 0.4);
+      }
 
-    .playlist-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
-    .track-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: .9rem; padding: .75rem; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; height: 100%; display:flex; flex-direction:column; }
-    .track-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.35); background: rgba(255,255,255,.07); }
-    .cover { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: .75rem; margin-bottom: 0.5rem; }
-    .track-name { font-weight: 700; font-size: .95rem }
-    .track-meta { font-size: .8rem; opacity: .8; }
-    .track-card.active { outline: 3px solid var(--heading-color); box-shadow: 0 0 20px rgba(129, 140, 248, 0.4); }
+      .volume-control-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        min-width: 150px;
+      }
 
-    .volume-control-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      min-width: 150px;
-    }
-
-    .volume-slider-wrapper {
+      .volume-slider-wrapper {
         position: relative;
         width: 120px;
         height: 40px;
-    }
+      }
 
-    input[type="range"].volume-slider {
+      input[type="range"].volume-slider {
         -webkit-appearance: none;
         appearance: none;
         width: 100px;
         height: 12px;
-        background: linear-gradient(to right, var(--slider-thumb) 50%, rgba(255,255,255,0.2) 50%);
+        background: linear-gradient(
+          to right,
+          var(--slider-thumb) 50%,
+          rgba(255, 255, 255, 0.2) 50%
+        );
         border-radius: 6px;
         outline: none;
         position: absolute;
         top: 14px;
         left: 10px;
         transform-origin: center;
-    }
+      }
 
-    input[type="range"].volume-slider::-webkit-slider-thumb {
+      input[type="range"].volume-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
         width: 22px;
@@ -164,499 +334,1186 @@
         border: 3px solid var(--slider-thumb);
         cursor: pointer;
         margin-top: -5px;
-    }
+      }
 
-    footer.footer { margin-top: auto; padding: 1.5rem; text-align:center; background: var(--footer-bg); border-top: 1px solid var(--footer-border); color: var(--text-color-secondary); }
-  </style>
-</head>
-<body>
-  <!-- Navbar updated with a "Back to Home" button -->
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">एकाग्र</a>
-      <div class="ms-auto">
-        <a href="index.html" class="btn btn-sm btn-gradient"><i class="fa-solid fa-arrow-left me-2"></i>Back to Home</a>
+      footer.footer {
+        margin-top: auto;
+        padding: 1.5rem;
+        text-align: center;
+        background: var(--footer-bg);
+        border-top: 1px solid var(--footer-border);
+        color: var(--text-color-secondary);
+      }
+
+      /* Remove clock-bar styles and navbar adjustments */
+      .navbar {
+        background: var(--navbar-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--navbar-border);
+      }
+
+      /* Add new clock section styles */
+      .clock-section {
+        background: var(--tool-card-bg);
+        border: 1px solid var(--tool-card-border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .clock-display {
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--heading-color);
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+      }
+      .clock-date {
+        font-size: 1.5rem;
+        color: var(--text-color-secondary);
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar updated with a "Back to Home" button -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">एकाग्र</a>
+        <div class="ms-auto">
+          <a href="index.html" class="btn btn-sm btn-gradient"
+            ><i class="fa-solid fa-arrow-left me-2"></i>Back to Home</a
+          >
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <header class="hero">
-    <h1 class="hero-title">Unlock deep work with a calm, powerful dashboard.</h1>
-    <p class="hero-sub">Timers, tasks, notes, ambient sound and insights—beautifully crafted in one place so you can enter flow faster and stay there longer.</p>
-  </header>
+    <header class="hero">
+      <h1 class="hero-title">
+        Unlock deep work with a calm, powerful dashboard.
+      </h1>
+      <p class="hero-sub">
+        Timers, tasks, notes, ambient sound and insights—beautifully crafted in
+        one place so you can enter flow faster and stay there longer.
+      </p>
+    </header>
 
-  <main class="container">
-    <div class="row g-4">
-      <!-- Pomodoro Timer -->
-      <section class="col-12 col-xl-4 col-lg-6">
-        <div class="tool-card d-flex flex-column">
-          <h2 class="mb-3">Pomodoro Timer</h2>
-          <div class="text-center">
-            <div id="timerDisplay" class="display-3 fw-bold" style="color: var(--heading-color);">25:00</div>
-            <div class="d-flex justify-content-center gap-2 mt-3">
-              <button id="startButton" class="btn btn-success">Start</button>
-              <button id="pauseButton" class="btn btn-warning">Pause</button>
-              <button id="resetButton" class="btn btn-danger">Reset</button>
-            </div>
-            <div class="d-flex justify-content-center gap-2 mt-3">
-              <button data-mode="work" class="btn btn-primary btn-sm mode-btn">Work 25m</button>
-              <button data-mode="short" class="btn btn-primary btn-sm mode-btn">Short 5m</button>
-              <button data-mode="long" class="btn btn-primary btn-sm mode-btn">Long 15m</button>
-            </div>
-            <div class="row g-2 mt-3">
-              <div class="col-4"><input id="customHours" class="form-control input-field text-center" type="number" placeholder="Hr" min="0" max="23"></div>
-              <div class="col-4"><input id="customMinutes" class="form-control input-field text-center" type="number" placeholder="Min" min="0" max="59"></div>
-              <div class="col-4"><input id="customSeconds" class="form-control input-field text-center" type="number" placeholder="Sec" min="0" max="59"></div>
-              <div class="col-12"><button id="setCustom" class="btn btn-secondary w-100">Set Custom</button></div>
-            </div>
-          </div>
+    <main class="container">
+      <!-- Clock Section -->
+      <div class="clock-section">
+        <div class="clock-display" id="mainClock">00:00:00</div>
+        <div class="clock-date" id="mainDate">Monday, January 1, 2024</div>
+        <div class="d-flex justify-content-center gap-2">
+          <button id="syncClock" class="btn btn-primary">Reset to System Time</button>
         </div>
-      </section>
+      </div>
 
-      <!-- To-Do List -->
-      <section class="col-12 col-xl-4 col-lg-6">
-        <div class="tool-card d-flex flex-column">
-          <h2 class="mb-3">To‑Do List</h2>
-          <div class="d-flex gap-2">
-            <input id="todoInput" class="form-control input-field" placeholder="Add a new task…" />
-            <button id="addTodo" class="btn btn-primary">Add</button>
-          </div>
-          <div id="todoList" class="scroll-y mt-3"></div>
-        </div>
-      </section>
-
-      <!-- Daily Motivation -->
-      <section class="col-12 col-xl-4 col-lg-6">
-        <div class="tool-card d-flex flex-column text-center">
-          <h2 class="mb-3">Daily Motivation</h2>
-          <p id="quoteText" class="fs-5 fst-italic">“The only way to do great work is to love what you do.”</p>
-          <p id="quoteAuthor" class="opacity-75">— Steve Jobs</p>
-          <button id="newQuote" class="btn btn-primary mx-auto mt-2">New Quote</button>
-        </div>
-      </section>
-
-      <!-- MP3 Noise Generator -->
-      <section class="col-12 col-lg-8">
-        <div class="tool-card d-flex flex-column">
-          <h2 class="mb-3">Noise Generator</h2>
-          <div id="playlist" class="playlist-grid scroll-y"></div>
-          <div class="d-flex align-items-center justify-content-between mt-3 gap-3 flex-wrap">
-            <div class="d-flex gap-2">
-              <button id="prevNoise" class="btn btn-primary"><i class="fa-solid fa-backward"></i></button>
-              <button id="playPauseNoise" class="btn btn-warning"><i id="playPauseIcon" class="fa-solid fa-play"></i></button>
-              <button id="nextNoise" class="btn btn-primary"><i class="fa-solid fa-forward"></i></button>
-              <button id="stopAll" class="btn btn-secondary">Stop All</button>
-            </div>
-            <div class="volume-control-container">
-              <i class="fa-solid fa-volume-high"></i>
-              <div class="volume-slider-wrapper">
-                <input id="volume" type="range" min="0" max="1" step="0.01" value="0.5" class="volume-slider" />
+      <div class="row g-4">
+        <!-- Pomodoro Timer -->
+        <section class="col-12 col-xl-4 col-lg-6">
+          <div class="tool-card d-flex flex-column">
+            <h2 class="mb-3">Pomodoro Timer</h2>
+            <div class="text-center">
+              <div
+                id="timerDisplay"
+                class="display-3 fw-bold"
+                style="color: var(--heading-color)"
+              >
+                25:00
               </div>
-              <span id="volText">50%</span>
+              <div class="d-flex justify-content-center gap-2 mt-3">
+                <button id="startButton" class="btn btn-success">Start</button>
+                <button id="pauseButton" class="btn btn-warning">Pause</button>
+                <button id="resetButton" class="btn btn-danger">Reset</button>
+              </div>
+              <div class="d-flex justify-content-center gap-2 mt-3">
+                <button
+                  data-mode="work"
+                  class="btn btn-primary btn-sm mode-btn"
+                >
+                  Work 25m
+                </button>
+                <button
+                  data-mode="short"
+                  class="btn btn-primary btn-sm mode-btn"
+                >
+                  Short 5m
+                </button>
+                <button
+                  data-mode="long"
+                  class="btn btn-primary btn-sm mode-btn"
+                >
+                  Long 15m
+                </button>
+              </div>
+              <div class="row g-2 mt-3">
+                <div class="col-4">
+                  <input
+                    id="customHours"
+                    class="form-control input-field text-center"
+                    type="number"
+                    placeholder="Hr"
+                    min="0"
+                    max="23"
+                  />
+                </div>
+                <div class="col-4">
+                  <input
+                    id="customMinutes"
+                    class="form-control input-field text-center"
+                    type="number"
+                    placeholder="Min"
+                    min="0"
+                    max="59"
+                  />
+                </div>
+                <div class="col-4">
+                  <input
+                    id="customSeconds"
+                    class="form-control input-field text-center"
+                    type="number"
+                    placeholder="Sec"
+                    min="0"
+                    max="59"
+                  />
+                </div>
+                <div class="col-12">
+                  <button id="setCustom" class="btn btn-secondary w-100">
+                    Set Custom
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Quick Notes -->
-      <section class="col-12 col-lg-4">
-        <div class="tool-card d-flex flex-column">
-          <h2 class="mb-3">Quick Notes</h2>
-          <textarea id="notes" class="form-control input-field" rows="8" placeholder="Jot quick ideas…"></textarea>
-          <div class="d-flex gap-2 mt-3">
-            <button id="clearNotes" class="btn btn-secondary">Clear</button>
-            <button id="downloadNotes" class="btn btn-primary">Download PDF</button>
+        <!-- To-Do List -->
+        <section class="col-12 col-xl-4 col-lg-6">
+          <div class="tool-card d-flex flex-column">
+            <h2 class="mb-3">To‑Do List</h2>
+            <div class="d-flex gap-2">
+              <input
+                id="todoInput"
+                class="form-control input-field"
+                placeholder="Add a new task…"
+              />
+              <button id="addTodo" class="btn btn-primary">Add</button>
+            </div>
+            <div id="todoList" class="scroll-y mt-3"></div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Bookmarks Saver -->
-      <section class="col-12 col-lg-6">
-        <div class="tool-card d-flex flex-column">
-          <h2 class="mb-3">Bookmarks Saver</h2>
-          <div class="row g-2">
-            <div class="col-md-4"><input id="bmName" class="form-control input-field" placeholder="Name" /></div>
-            <div class="col-md-6"><input id="bmUrl" class="form-control input-field" type="url" placeholder="https://example.com" /></div>
-            <div class="col-md-2"><button id="addBm" class="btn btn-primary w-100">Add</button></div>
+        <!-- Daily Motivation -->
+        <section class="col-12 col-xl-4 col-lg-6">
+          <div class="tool-card d-flex flex-column text-center">
+            <h2 class="mb-3">Daily Motivation</h2>
+            <p id="quoteText" class="fs-5 fst-italic">
+              “The only way to do great work is to love what you do.”
+            </p>
+            <p id="quoteAuthor" class="opacity-75">— Steve Jobs</p>
+            <button id="newQuote" class="btn btn-primary mx-auto mt-2">
+              New Quote
+            </button>
           </div>
-          <div id="bmList" class="scroll-y mt-3"></div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Daily Planner -->
-      <section class="col-12 col-lg-6">
-        <div class="tool-card d-flex flex-column">
-          <h2 class="mb-3">Daily Planner</h2>
-          <div class="row g-2 align-items-end">
-            <div class="col-md-6"><input id="planText" class="form-control input-field" placeholder="Add a plan…" /></div>
-            <div class="col-md-4"><input id="planDate" class="form-control input-field" type="date" /></div>
-            <div class="col-md-2"><button id="addPlan" class="btn btn-primary w-100">Add</button></div>
+        <!-- MP3 Noise Generator -->
+        <section class="col-12 col-lg-8">
+          <div class="tool-card d-flex flex-column">
+            <h2 class="mb-3">Noise Generator</h2>
+            <div id="playlist" class="playlist-grid scroll-y"></div>
+            <div
+              class="d-flex align-items-center justify-content-between mt-3 gap-3 flex-wrap"
+            >
+              <div class="d-flex gap-2">
+                <button id="prevNoise" class="btn btn-primary">
+                  <i class="fa-solid fa-backward"></i>
+                </button>
+                <button id="playPauseNoise" class="btn btn-warning">
+                  <i id="playPauseIcon" class="fa-solid fa-play"></i>
+                </button>
+                <button id="nextNoise" class="btn btn-primary">
+                  <i class="fa-solid fa-forward"></i>
+                </button>
+                <button id="stopAll" class="btn btn-secondary">Stop All</button>
+              </div>
+              <div class="volume-control-container">
+                <i class="fa-solid fa-volume-high"></i>
+                <div class="volume-slider-wrapper">
+                  <input
+                    id="volume"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.5"
+                    class="volume-slider"
+                  />
+                </div>
+                <span id="volText">50%</span>
+              </div>
+            </div>
           </div>
-          <div id="planList" class="scroll-y mt-3"></div>
-          <button id="downloadPlan" class="btn btn-primary mt-2 align-self-start">Download Plan PDF</button>
-        </div>
-      </section>
+        </section>
 
-      <!-- Productivity Dashboard -->
-      <section class="col-12">
-        <div class="tool-card d-flex flex-column text-center">
-          <h2 class="mb-3">Productivity Dashboard</h2>
-          <div class="row g-3">
-            <div class="col-12 col-md-4"><div class="p-3 border rounded">Hours Worked Today: <span id="hoursWorked" class="fw-bold fs-4" style="color: var(--heading-color);">0.00</span></div></div>
-            <div class="col-12 col-md-4"><div class="p-3 border rounded">Tasks Completed Today: <span id="tasksDone" class="fw-bold fs-4" style="color: var(--heading-color);">0</span></div></div>
-            <div class="col-12 col-md-4"><div class="p-3 border rounded">Focus Success Rate: <span id="successRate" class="fw-bold fs-4" style="color: var(--heading-color);">0%</span></div></div>
+        <!-- Quick Notes -->
+        <section class="col-12 col-lg-4">
+          <div class="tool-card d-flex flex-column">
+            <h2 class="mb-3">Quick Notes</h2>
+            <textarea
+              id="notes"
+              class="form-control input-field"
+              rows="8"
+              placeholder="Jot quick ideas…"
+            ></textarea>
+            <div class="d-flex gap-2 mt-3">
+              <button id="clearNotes" class="btn btn-secondary">Clear</button>
+              <button id="downloadNotes" class="btn btn-primary">
+                Download PDF
+              </button>
+            </div>
           </div>
-          <button id="resetStats" class="btn btn-danger mt-3 mx-auto">Reset Daily Stats</button>
-        </div>
-      </section>
-    </div>
-  </main>
+        </section>
 
-  <!-- Notification Modal -->
-  <div id="notify" class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content p-4 border-0" style="background-color: var(--tool-card-bg); border: 1px solid var(--tool-card-border);">
-        <p id="notifyMsg" class="fs-4 m-0 text-center">Time is up!</p>
-        <button class="btn btn-primary mt-3 align-self-center" data-bs-dismiss="modal">OK</button>
+        <!-- Bookmarks Saver -->
+        <section class="col-12 col-lg-6">
+          <div class="tool-card d-flex flex-column">
+            <h2 class="mb-3">Bookmarks Saver</h2>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <input
+                  id="bmName"
+                  class="form-control input-field"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  id="bmUrl"
+                  class="form-control input-field"
+                  type="url"
+                  placeholder="https://example.com"
+                />
+              </div>
+              <div class="col-md-2">
+                <button id="addBm" class="btn btn-primary w-100">Add</button>
+              </div>
+            </div>
+            <div id="bmList" class="scroll-y mt-3"></div>
+          </div>
+        </section>
+
+        <!-- Daily Planner -->
+        <section class="col-12 col-lg-6">
+          <div class="tool-card d-flex flex-column">
+            <h2 class="mb-3">Daily Planner</h2>
+            <div class="row g-2 align-items-end">
+              <div class="col-md-6">
+                <input
+                  id="planText"
+                  class="form-control input-field"
+                  placeholder="Add a plan…"
+                />
+              </div>
+              <div class="col-md-4">
+                <input
+                  id="planDate"
+                  class="form-control input-field"
+                  type="date"
+                />
+              </div>
+              <div class="col-md-2">
+                <button id="addPlan" class="btn btn-primary w-100">Add</button>
+              </div>
+            </div>
+            <div id="planList" class="scroll-y mt-3"></div>
+            <button
+              id="downloadPlan"
+              class="btn btn-primary mt-2 align-self-start"
+            >
+              Download Plan PDF
+            </button>
+          </div>
+        </section>
+
+        <!-- Productivity Dashboard -->
+        <section class="col-12">
+          <div class="tool-card d-flex flex-column text-center">
+            <h2 class="mb-3">Productivity Dashboard</h2>
+            <div class="row g-3">
+              <div class="col-12 col-md-4">
+                <div class="p-3 border rounded">
+                  Hours Worked Today:
+                  <span
+                    id="hoursWorked"
+                    class="fw-bold fs-4"
+                    style="color: var(--heading-color)"
+                    >0.00</span
+                  >
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="p-3 border rounded">
+                  Tasks Completed Today:
+                  <span
+                    id="tasksDone"
+                    class="fw-bold fs-4"
+                    style="color: var(--heading-color)"
+                    >0</span
+                  >
+                </div>
+              </div>
+              <div class="col-12 col-md-4">
+                <div class="p-3 border rounded">
+                  Focus Success Rate:
+                  <span
+                    id="successRate"
+                    class="fw-bold fs-4"
+                    style="color: var(--heading-color)"
+                    >0%</span
+                  >
+                </div>
+              </div>
+            </div>
+            <button id="resetStats" class="btn btn-danger mt-3 mx-auto">
+              Reset Daily Stats
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Notification Modal -->
+    <div id="notify" class="modal fade" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div
+          class="modal-content p-4 border-0"
+          style="
+            background-color: var(--tool-card-bg);
+            border: 1px solid var(--tool-card-border);
+          "
+        >
+          <p id="notifyMsg" class="fs-4 m-0 text-center">Time is up!</p>
+          <button
+            class="btn btn-primary mt-3 align-self-center"
+            data-bs-dismiss="modal"
+          >
+            OK
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <footer class="footer">© 2025 एकाग्र. All rights reserved.</footer>
+    <footer class="footer">© 2025 एकाग्र. All rights reserved.</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script>
-    // ---------- Helpers (cookies + storage) ----------
-    const Cookies = {
-      set(name, value, days = 365) {
-        const maxAge = days * 24 * 60 * 60;
-        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax; secure`;
-      },
-      get(name) {
-        return document.cookie
-          .split('; ')
-          .map(v => v.split('='))
-          .reduce((acc, [k, val]) => ({...acc, [decodeURIComponent(k)]: decodeURIComponent(val || '')}), {})[name];
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // ---------- Helpers (cookies + storage) ----------
+      const Cookies = {
+        set(name, value, days = 365) {
+          const maxAge = days * 24 * 60 * 60;
+          document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
+            value
+          )}; max-age=${maxAge}; path=/; SameSite=Lax; secure`;
+        },
+        get(name) {
+          return document.cookie
+            .split("; ")
+            .map((v) => v.split("="))
+            .reduce(
+              (acc, [k, val]) => ({
+                ...acc,
+                [decodeURIComponent(k)]: decodeURIComponent(val || ""),
+              }),
+              {}
+            )[name];
+        },
+      };
+
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+      const notifyModal = new bootstrap.Modal($("#notify"));
+      const showNote = (msg) => {
+        $("#notifyMsg").textContent = msg;
+        notifyModal.show();
+      };
+
+      const todayKey = () => new Date().toISOString().slice(0, 10);
+
+      // ---------- Robust Pomodoro (drift-free, sessionStorage persistence) ----------
+      const timerDisplay = $("#timerDisplay");
+      const startBtn = $("#startButton");
+      const pauseBtn = $("#pauseButton");
+      const resetBtn = $("#resetButton");
+      const modeBtns = $$(".mode-btn");
+      const customH = $("#customHours");
+      const customM = $("#customMinutes");
+      const customS = $("#customSeconds");
+      const setCustomBtn = $("#setCustom");
+      // ADDITION: Create an Audio object for the timer sound
+      const timerEndSound = new Audio("audio/timeout.wav");
+
+      const MODES = { work: 25 * 60, short: 5 * 60, long: 15 * 60 };
+
+      let timerState = JSON.parse(sessionStorage.getItem("nf_timer")) || {
+        mode: "work",
+        running: false,
+        startAt: null, // epoch ms when started
+        endAt: null, // epoch ms when should end
+        remaining: MODES.work, // seconds remaining if paused
+        sessionLen: MODES.work, // length of the current session (sec)
+      };
+
+      // Productivity stats (localStorage, per day)
+      let statMap = JSON.parse(localStorage.getItem("nf_stats")) || {};
+      function statsToday() {
+        const k = todayKey();
+        if (!statMap[k])
+          statMap[k] = { hours: 0, tasks: 0, started: 0, finished: 0 };
+        return statMap[k];
       }
-    };
+      function saveStats() {
+        localStorage.setItem("nf_stats", JSON.stringify(statMap));
+        renderStats();
+      }
 
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => Array.from(document.querySelectorAll(sel));
-    const notifyModal = new bootstrap.Modal($('#notify'));
-    const showNote = (msg) => { $('#notifyMsg').textContent = msg; notifyModal.show(); };
-
-    const todayKey = () => new Date().toISOString().slice(0,10);
-
-    // ---------- Robust Pomodoro (drift-free, sessionStorage persistence) ----------
-    const timerDisplay = $('#timerDisplay');
-    const startBtn = $('#startButton');
-    const pauseBtn = $('#pauseButton');
-    const resetBtn = $('#resetButton');
-    const modeBtns = $$('.mode-btn');
-    const customH = $('#customHours');
-    const customM = $('#customMinutes');
-    const customS = $('#customSeconds');
-    const setCustomBtn = $('#setCustom');
-    // ADDITION: Create an Audio object for the timer sound
-    const timerEndSound = new Audio('audio/timeout.wav');
-
-    const MODES = { work: 25*60, short: 5*60, long: 15*60 };
-
-    let timerState = JSON.parse(sessionStorage.getItem('nf_timer')) || {
-      mode: 'work',
-      running: false,
-      startAt: null, // epoch ms when started
-      endAt: null,   // epoch ms when should end
-      remaining: MODES.work, // seconds remaining if paused
-      sessionLen: MODES.work // length of the current session (sec)
-    };
-
-    // Productivity stats (localStorage, per day)
-    let statMap = JSON.parse(localStorage.getItem('nf_stats')) || {};
-    function statsToday(){
-      const k = todayKey();
-      if(!statMap[k]) statMap[k] = { hours:0, tasks:0, started:0, finished:0 };
-      return statMap[k];
-    }
-    function saveStats(){ localStorage.setItem('nf_stats', JSON.stringify(statMap)); renderStats(); }
-
-    function formatTime(sec){
-      const h = Math.floor(sec/3600); const m = Math.floor((sec%3600)/60); const s = Math.max(0, Math.floor(sec%60));
-      return (h? String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    }
-    function updateTimerDisplay(){
-      const now = Date.now();
-      if(timerState.running){
-        const remainMs = Math.max(0, timerState.endAt - now);
-        timerState.remaining = Math.ceil(remainMs/1000);
-        if(remainMs <= 0){
-          timerState.running = false;
-          // ADDITION: Play sound when timer ends
-          timerEndSound.play();
-          // session completed
-          const lenHrs = (timerState.sessionLen/3600);
-          const st = statsToday();
-          st.finished++; st.hours += lenHrs; saveStats();
-          showNote('Time is up! Great job.');
-          // auto switch: work -> short, break -> work
-          if(timerState.mode === 'work'){ setMode('short'); }
-          else { setMode('work'); }
+      function formatTime(sec) {
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = Math.max(0, Math.floor(sec % 60));
+        return (
+          (h ? String(h).padStart(2, "0") + ":" : "") +
+          String(m).padStart(2, "0") +
+          ":" +
+          String(s).padStart(2, "0")
+        );
+      }
+      function updateTimerDisplay() {
+        const now = Date.now();
+        if (timerState.running) {
+          const remainMs = Math.max(0, timerState.endAt - now);
+          timerState.remaining = Math.ceil(remainMs / 1000);
+          if (remainMs <= 0) {
+            timerState.running = false;
+            // ADDITION: Play sound when timer ends
+            timerEndSound.play();
+            // session completed
+            const lenHrs = timerState.sessionLen / 3600;
+            const st = statsToday();
+            st.finished++;
+            st.hours += lenHrs;
+            saveStats();
+            showNote("Time is up! Great job.");
+            // auto switch: work -> short, break -> work
+            if (timerState.mode === "work") {
+              setMode("short");
+            } else {
+              setMode("work");
+            }
+          }
         }
+        timerDisplay.textContent = formatTime(timerState.remaining);
+        sessionStorage.setItem("nf_timer", JSON.stringify(timerState));
       }
-      timerDisplay.textContent = formatTime(timerState.remaining);
-      sessionStorage.setItem('nf_timer', JSON.stringify(timerState));
-    }
 
-    let tick = setInterval(updateTimerDisplay, 250);
+      let tick = setInterval(updateTimerDisplay, 250);
 
-    function setMode(mode, customLenSec){
-      timerState.mode = mode;
-      const len = customLenSec ?? (MODES[mode] ?? timerState.sessionLen);
-      timerState.sessionLen = len; timerState.remaining = len; timerState.running = false; timerState.startAt = null; timerState.endAt = null;
+      function setMode(mode, customLenSec) {
+        timerState.mode = mode;
+        const len = customLenSec ?? MODES[mode] ?? timerState.sessionLen;
+        timerState.sessionLen = len;
+        timerState.remaining = len;
+        timerState.running = false;
+        timerState.startAt = null;
+        timerState.endAt = null;
+        updateTimerDisplay();
+      }
+
+      function startTimer() {
+        if (timerState.running) return;
+        const now = Date.now();
+        timerState.startAt = now;
+        timerState.endAt = now + timerState.remaining * 1000;
+        timerState.running = true;
+        // count a started session only if we are at the very beginning of this session
+        if (timerState.remaining === timerState.sessionLen) {
+          const st = statsToday();
+          st.started++;
+          saveStats();
+        }
+        updateTimerDisplay();
+      }
+      function pauseTimer() {
+        timerState.running = false;
+        updateTimerDisplay();
+      }
+      function resetTimer() {
+        timerState.running = false;
+        timerState.remaining = timerState.sessionLen;
+        updateTimerDisplay();
+      }
+
+      // init from sessionStorage
+      if (timerState.mode !== "work" && !MODES[timerState.mode]) {
+        timerState.mode = "work";
+        timerState.sessionLen = MODES.work;
+        timerState.remaining = MODES.work;
+      }
       updateTimerDisplay();
-    }
 
-    function startTimer(){
-      if(timerState.running) return;
-      const now = Date.now();
-      timerState.startAt = now; timerState.endAt = now + timerState.remaining*1000; timerState.running = true;
-      // count a started session only if we are at the very beginning of this session
-      if(timerState.remaining === timerState.sessionLen){ const st = statsToday(); st.started++; saveStats(); }
-      updateTimerDisplay();
-    }
-    function pauseTimer(){ timerState.running = false; updateTimerDisplay(); }
-    function resetTimer(){ timerState.running = false; timerState.remaining = timerState.sessionLen; updateTimerDisplay(); }
-
-    // init from sessionStorage
-    if(timerState.mode !== 'work' && !MODES[timerState.mode]) { timerState.mode = 'work'; timerState.sessionLen = MODES.work; timerState.remaining = MODES.work; }
-    updateTimerDisplay();
-
-    startBtn.addEventListener('click', startTimer);
-    pauseBtn.addEventListener('click', pauseTimer);
-    resetBtn.addEventListener('click', resetTimer);
-    modeBtns.forEach(b=> b.addEventListener('click', ()=> setMode(b.dataset.mode)));
-    setCustomBtn.addEventListener('click', ()=>{
-      const h = parseInt(customH.value||'0',10), m = parseInt(customM.value||'0',10), s = parseInt(customS.value||'0',10);
-      if([h,m,s].some(n=> Number.isNaN(n) || n<0) || m>59 || s>59){ showNote('Enter valid custom time.'); return; }
-      const total = h*3600 + m*60 + s; if(total<=0){ showNote('Custom time cannot be zero.'); return; }
-      setMode('custom', total);
-    });
-
-    // ---------- Quotes ----------
-    const QUOTES = [
-      ["Believe you can and you’re halfway there.", "Theodore Roosevelt"],
-      ["It always seems impossible until it’s done.", "Nelson Mandela"],
-      ["The best way to predict the future is to create it.", "Peter Drucker"],
-      ["Simplicity is the ultimate sophistication.", "Leonardo da Vinci"],
-      ["Action is the foundational key to all success.", "Pablo Picasso"],
-      ["Well begun is half done.", "Aristotle"],
-    ];
-    const quoteText = $('#quoteText');
-    const quoteAuthor = $('#quoteAuthor');
-    const newQuoteBtn = $('#newQuote');
-    function setRandQuote(){ const [t,a] = QUOTES[Math.floor(Math.random()*QUOTES.length)]; quoteText.textContent = '“'+t+'”'; quoteAuthor.textContent = '— '+a; }
-    newQuoteBtn.addEventListener('click', setRandQuote); setRandQuote();
-
-    // ---------- MP3-based Noise Generator ----------
-    const tracks = [
-      { src:'Audio/rain.mp3', name:'Sleepy Rain', meta:'Cozy storm', cover:'https://images.unsplash.com/photo-1623567932970-576132e5d056?w=600&auto=format&fit=crop&q=60' },
-      { src:'Audio/cosmcocean.mp3', name:'Cosmic Ocean', meta:'Shoreline swells', cover:'https://images.unsplash.com/photo-1608178398319-48f814d0750c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwyMTI2NjN8fGVufDB8fHx8fA%3D%3D' },
-      { src:'Audio/ForestBirds.mp3', name:'Forest Birds', meta:'Woodland ambience', cover:'https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&auto=format&fit=crop&q=60' },
-      { src:'Audio/CoffeShop.mp3', name:'Coffee Shop', meta:'Low chatter', cover:'https://images.unsplash.com/photo-1542372147193-a7aca54189cd?w=600&auto=format&fit=crop&q=60' },
-      { src:'Audio/flowing river.mp3', name:'Flowing River', meta:'Calm stream', cover:'https://images.unsplash.com/photo-1536691878009-a3d068087275?w=600&auto=format&fit=crop&q=60' },
-      { src:'Audio/thunder.mp3', name:'Distant Storm', meta:'Soothing rumbles', cover:'https://images.unsplash.com/photo-1429552077091-836152271555?q=80&w=400&auto=format&fit=crop' },
-      { src:'Audio/piano.mp3', name:'Relaxing Piano', meta:'Melodic calm', cover:'https://images.unsplash.com/photo-1514119412350-e174d90d280e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBpYW5vfGVufDB8fDB8fHww' },
-    ];
-
-    const playlistEl = $('#playlist');
-    const audioPlayer = new Audio();
-    audioPlayer.loop = true;
-
-    function renderPlaylist(){
-      playlistEl.innerHTML = '';
-      tracks.forEach((t, i) => {
-        const card = document.createElement('div'); card.className = 'track-card'; card.dataset.index = i;
-        card.innerHTML = `<img class="cover" src="${t.cover}" alt="${t.name}" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d1117/a5c9ff?text=Sound';"><div class="track-name">${t.name}</div><div class="track-meta">${t.meta}</div>`;
-        card.addEventListener('click', ()=> playByIndex(i));
-        playlistEl.appendChild(card);
+      startBtn.addEventListener("click", startTimer);
+      pauseBtn.addEventListener("click", pauseTimer);
+      resetBtn.addEventListener("click", resetTimer);
+      modeBtns.forEach((b) =>
+        b.addEventListener("click", () => setMode(b.dataset.mode))
+      );
+      setCustomBtn.addEventListener("click", () => {
+        const h = parseInt(customH.value || "0", 10),
+          m = parseInt(customM.value || "0", 10),
+          s = parseInt(customS.value || "0", 10);
+        if (
+          [h, m, s].some((n) => Number.isNaN(n) || n < 0) ||
+          m > 59 ||
+          s > 59
+        ) {
+          showNote("Enter valid custom time.");
+          return;
+        }
+        const total = h * 3600 + m * 60 + s;
+        if (total <= 0) {
+          showNote("Custom time cannot be zero.");
+          return;
+        }
+        setMode("custom", total);
       });
-      updateActiveCard();
-    }
 
-    const volume = $('#volume'); const volText = $('#volText'); const playPauseBtn = $('#playPauseNoise'); const playIcon = $('#playPauseIcon');
-    const prevBtn = $('#prevNoise'); const nextBtn = $('#nextNoise'); const stopBtn = $('#stopAll');
+      // ---------- Quotes ----------
+      const QUOTES = [
+        ["Believe you can and you’re halfway there.", "Theodore Roosevelt"],
+        ["It always seems impossible until it’s done.", "Nelson Mandela"],
+        ["The best way to predict the future is to create it.", "Peter Drucker"],
+        ["Simplicity is the ultimate sophistication.", "Leonardo da Vinci"],
+        ["Action is the foundational key to all success.", "Pablo Picasso"],
+        ["Well begun is half done.", "Aristotle"],
 
-    let current = JSON.parse(sessionStorage.getItem('nf_noise_current')) || null; // { index }
+        // Indian thoughts & quotes about time, work and discipline
+        ["Arise, awake, and stop not till the goal is reached.", "Swami Vivekananda"],
+        ["Time is like a river. You cannot touch the same water twice.", "Unknown (Indian proverb)"],
+        ["Do not be led by others, awaken your own mind, amass your own experience, and decide for yourself your own path.", "Gautama Buddha"],
+        ["A person should not be too honest. Straight trees are cut first and honest people are screwed first.", "Chanakya (Kautilya) — pragmatic reminder to be wise in action"],
+        ["You must be the change you wish to see in the world.", "Mahatma Gandhi"],
+        ["The future depends on what you do today.", "Mahatma Gandhi"],
+        ["Work is worship; perform your duty with love and diligence.", "Indian proverb"],
+        ["Let your work be love made visible.", "Rabindranath Tagore"],
+        ["Where the mind is led by the heart, effort becomes joy; value each moment of work.", "Kabir"],
+        ["Those who plant trees, knowing they will never sit in their shade, have at least started to understand the meaning of life.", "Rabindranath Tagore"]
+      ];
+      const quoteText = $("#quoteText");
+      const quoteAuthor = $("#quoteAuthor");
+      const newQuoteBtn = $("#newQuote");
+      function setRandQuote() {
+        const [t, a] = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+        quoteText.textContent = "“" + t + "”";
+        quoteAuthor.textContent = "— " + a;
+      }
+      newQuoteBtn.addEventListener("click", setRandQuote);
+      setRandQuote();
 
-    function saveNoiseSession(){ sessionStorage.setItem('nf_noise_current', JSON.stringify(current)); }
+      // ---------- MP3-based Noise Generator ----------
+      const tracks = [
+        {
+          src: "Audio/rain.mp3",
+          name: "Sleepy Rain",
+          meta: "Cozy storm",
+          cover:
+            "https://images.unsplash.com/photo-1623567932970-576132e5d056?w=600&auto=format&fit=crop&q=60",
+        },
+        {
+          src: "Audio/cosmcocean.mp3",
+          name: "Cosmic Ocean",
+          meta: "Shoreline swells",
+          cover:
+            "https://images.unsplash.com/photo-1608178398319-48f814d0750c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwyMTI2NjN8fGVufDB8fHx8fA%3D%3D",
+        },
+        {
+          src: "Audio/ForestBirds.mp3",
+          name: "Forest Birds",
+          meta: "Woodland ambience",
+          cover:
+            "https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&auto=format&fit=crop&q=60",
+        },
+        {
+          src: "Audio/CoffeShop.mp3",
+          name: "Coffee Shop",
+          meta: "Low chatter",
+          cover:
+            "https://images.unsplash.com/photo-1542372147193-a7aca54189cd?w=600&auto=format&fit=crop&q=60",
+        },
+        {
+          src: "Audio/flowing river.mp3",
+          name: "Flowing River",
+          meta: "Calm stream",
+          cover:
+            "https://images.unsplash.com/photo-1536691878009-a3d068087275?w=600&auto=format&fit=crop&q=60",
+        },
+        {
+          src: "Audio/thunder.mp3",
+          name: "Distant Storm",
+          meta: "Soothing rumbles",
+          cover:
+            "https://images.unsplash.com/photo-1429552077091-836152271555?q=80&w=400&auto=format&fit=crop",
+        },
+        {
+          src: "Audio/piano.mp3",
+          name: "Relaxing Piano",
+          meta: "Melodic calm",
+          cover:
+            "https://images.unsplash.com/photo-1514119412350-e174d90d280e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBpYW5vfGVufDB8fDB8fHww",
+        },
+      ];
 
-    function stopAll(){
+      const playlistEl = $("#playlist");
+      const audioPlayer = new Audio();
+      audioPlayer.loop = true;
+
+      function renderPlaylist() {
+        playlistEl.innerHTML = "";
+        tracks.forEach((t, i) => {
+          const card = document.createElement("div");
+          card.className = "track-card";
+          card.dataset.index = i;
+          card.innerHTML = `<img class="cover" src="${t.cover}" alt="${t.name}" onerror="this.onerror=null;this.src='https://placehold.co/400x400/0d1117/a5c9ff?text=Sound';"><div class="track-name">${t.name}</div><div class="track-meta">${t.meta}</div>`;
+          card.addEventListener("click", () => playByIndex(i));
+          playlistEl.appendChild(card);
+        });
+        updateActiveCard();
+      }
+
+      const volume = $("#volume");
+      const volText = $("#volText");
+      const playPauseBtn = $("#playPauseNoise");
+      const playIcon = $("#playPauseIcon");
+      const prevBtn = $("#prevNoise");
+      const nextBtn = $("#nextNoise");
+      const stopBtn = $("#stopAll");
+
+      let current =
+        JSON.parse(sessionStorage.getItem("nf_noise_current")) || null; // { index }
+
+      function saveNoiseSession() {
+        sessionStorage.setItem("nf_noise_current", JSON.stringify(current));
+      }
+
+      function stopAll() {
         audioPlayer.pause();
         audioPlayer.currentTime = 0;
-        playIcon.className = 'fa-solid fa-play';
+        playIcon.className = "fa-solid fa-play";
         current = null;
         updateActiveCard();
-        sessionStorage.removeItem('nf_noise_current');
-    }
-
-    function playByIndex(i){
-      const t = tracks[i]; if(!t) return;
-      current = { index:i };
-      audioPlayer.src = t.src;
-      audioPlayer.play().catch(e => console.error("Audio playback failed:", e));
-      playIcon.className = 'fa-solid fa-pause';
-      updateActiveCard();
-      saveNoiseSession();
-    }
-
-    function togglePlay(){
-      if(!current){ playByIndex(0); return; }
-      if(audioPlayer.paused){
-        audioPlayer.play().catch(e => console.error("Audio playback failed:", e));
-        playIcon.className = 'fa-solid fa-pause';
-      } else {
-        audioPlayer.pause();
-        playIcon.className = 'fa-solid fa-play';
+        sessionStorage.removeItem("nf_noise_current");
       }
-    }
 
-    function next(){ if(!current){ playByIndex(0); return; } playByIndex((current.index+1)%tracks.length); }
-    function prev(){ if(!current){ playByIndex(0); return; } playByIndex((current.index-1+tracks.length)%tracks.length); }
+      function playByIndex(i) {
+        const t = tracks[i];
+        if (!t) return;
+        current = { index: i };
+        audioPlayer.src = t.src;
+        audioPlayer
+          .play()
+          .catch((e) => console.error("Audio playback failed:", e));
+        playIcon.className = "fa-solid fa-pause";
+        updateActiveCard();
+        saveNoiseSession();
+      }
 
-    function updateActiveCard(){ $$('.track-card').forEach((c, idx)=> c.classList.toggle('active', current && idx===current.index)); }
+      function togglePlay() {
+        if (!current) {
+          playByIndex(0);
+          return;
+        }
+        if (audioPlayer.paused) {
+          audioPlayer
+            .play()
+            .catch((e) => console.error("Audio playback failed:", e));
+          playIcon.className = "fa-solid fa-pause";
+        } else {
+          audioPlayer.pause();
+          playIcon.className = "fa-solid fa-play";
+        }
+      }
 
-    function updateVolumeSliderBackground(value) {
+      function next() {
+        if (!current) {
+          playByIndex(0);
+          return;
+        }
+        playByIndex((current.index + 1) % tracks.length);
+      }
+      function prev() {
+        if (!current) {
+          playByIndex(0);
+          return;
+        }
+        playByIndex((current.index - 1 + tracks.length) % tracks.length);
+      }
+
+      function updateActiveCard() {
+        $$(".track-card").forEach((c, idx) =>
+          c.classList.toggle("active", current && idx === current.index)
+        );
+      }
+
+      function updateVolumeSliderBackground(value) {
         const percentage = value * 100;
         volume.style.background = `linear-gradient(to right, var(--slider-thumb) ${percentage}%, rgba(255,255,255,0.2) ${percentage}%)`;
-    }
+      }
 
-    volume.addEventListener('input', e=>{
+      volume.addEventListener("input", (e) => {
         const v = parseFloat(e.target.value);
         audioPlayer.volume = v;
         volText.textContent = `${Math.round(v * 100)}%`;
-        Cookies.set('nf_volume', v, 180);
+        Cookies.set("nf_volume", v, 180);
         updateVolumeSliderBackground(v);
-    });
+      });
 
-    (function(){
-        const v = parseFloat(Cookies.get('nf_volume'));
-        if(!Number.isNaN(v)){
-            volume.value = v;
-            audioPlayer.volume = v;
-            volText.textContent = `${Math.round(v * 100)}%`;
-            updateVolumeSliderBackground(v);
+      (function () {
+        const v = parseFloat(Cookies.get("nf_volume"));
+        if (!Number.isNaN(v)) {
+          volume.value = v;
+          audioPlayer.volume = v;
+          volText.textContent = `${Math.round(v * 100)}%`;
+          updateVolumeSliderBackground(v);
         } else {
-            updateVolumeSliderBackground(parseFloat(volume.value));
-            audioPlayer.volume = parseFloat(volume.value);
+          updateVolumeSliderBackground(parseFloat(volume.value));
+          audioPlayer.volume = parseFloat(volume.value);
         }
-    })();
+      })();
 
-    playPauseBtn.addEventListener('click', togglePlay);
-    nextBtn.addEventListener('click', next);
-    prevBtn.addEventListener('click', prev);
-    stopBtn.addEventListener('click', stopAll);
+      playPauseBtn.addEventListener("click", togglePlay);
+      nextBtn.addEventListener("click", next);
+      prevBtn.addEventListener("click", prev);
+      stopBtn.addEventListener("click", stopAll);
 
-    renderPlaylist();
-    if(current) {
+      renderPlaylist();
+      if (current) {
         updateActiveCard();
         // Note: We don't auto-play on load to respect browser policies.
         // The user must initiate playback.
-    }
+      }
 
-    // ---------- Quick Notes (localStorage) ----------
-    const notes = $('#notes'); const clearNotes = $('#clearNotes'); const dlNotes = $('#downloadNotes');
-    notes.value = localStorage.getItem('nf_notes') || '';
-    notes.addEventListener('input', ()=> localStorage.setItem('nf_notes', notes.value));
-    clearNotes.addEventListener('click', ()=> { notes.value=''; localStorage.removeItem('nf_notes'); });
-    dlNotes.addEventListener('click', ()=>{
-      const t = notes.value.trim(); if(!t){ showNote('Notes are empty.'); return; }
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF(); const margin=10; const maxW = doc.internal.pageSize.getWidth()-2*margin; const lines = doc.splitTextToSize(t, maxW); let y=margin;
-      doc.setFontSize(12);
-      lines.forEach(line=>{ if(y>doc.internal.pageSize.getHeight()-margin){ doc.addPage(); y=margin; } doc.text(line, margin, y); y+=8; });
-      doc.save('NeuroFocus_Notes.pdf');
-    });
-
-    // ---------- To‑Do List (localStorage + stats) ----------
-    const todoInput = $('#todoInput'); const addTodoBtn = $('#addTodo'); const todoList = $('#todoList');
-    let todos = JSON.parse(localStorage.getItem('nf_todos') || '[]');
-    function saveTodos(){ localStorage.setItem('nf_todos', JSON.stringify(todos)); }
-    function renderTodos(){
-      todoList.innerHTML = '';
-      todos.forEach((t, i)=>{
-        const row = document.createElement('div'); row.className = 'list-item'+(t.completed?' completed':'');
-        row.innerHTML = `<div class="form-check m-0"><input class="form-check-input" type="checkbox" ${t.completed?'checked':''}></div><div class="flex-grow-1">${t.text}</div>`;
-        const del = document.createElement('button'); del.className='btn btn-danger btn-sm'; del.innerHTML='<i class="fa-solid fa-trash"></i>';
-        row.appendChild(del); todoList.appendChild(row);
-        row.querySelector('input').addEventListener('change', (e)=>{
-          const prev = t.completed; t.completed = e.target.checked; saveTodos(); row.classList.toggle('completed', t.completed);
-          if(!prev && t.completed){ const st = statsToday(); st.tasks++; saveStats(); }
+      // ---------- Quick Notes (localStorage) ----------
+      const notes = $("#notes");
+      const clearNotes = $("#clearNotes");
+      const dlNotes = $("#downloadNotes");
+      notes.value = localStorage.getItem("nf_notes") || "";
+      notes.addEventListener("input", () =>
+        localStorage.setItem("nf_notes", notes.value)
+      );
+      clearNotes.addEventListener("click", () => {
+        notes.value = "";
+        localStorage.removeItem("nf_notes");
+      });
+      dlNotes.addEventListener("click", () => {
+        const t = notes.value.trim();
+        if (!t) {
+          showNote("Notes are empty.");
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const margin = 10;
+        const maxW = doc.internal.pageSize.getWidth() - 2 * margin;
+        const lines = doc.splitTextToSize(t, maxW);
+        let y = margin;
+        doc.setFontSize(12);
+        lines.forEach((line) => {
+          if (y > doc.internal.pageSize.getHeight() - margin) {
+            doc.addPage();
+            y = margin;
+          }
+          doc.text(line, margin, y);
+          y += 8;
         });
-        del.addEventListener('click', ()=>{ todos.splice(i,1); saveTodos(); renderTodos(); });
+        doc.save("NeuroFocus_Notes.pdf");
       });
-    }
-    addTodoBtn.addEventListener('click', ()=>{ const v = (todoInput.value||'').trim(); if(!v) return; todos.push({text:v, completed:false}); todoInput.value=''; saveTodos(); renderTodos(); });
-    todoInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ addTodoBtn.click(); }});
-    renderTodos();
 
-    // ---------- Bookmarks (localStorage) ----------
-    const bmName = $('#bmName'); const bmUrl = $('#bmUrl'); const addBm = $('#addBm'); const bmList = $('#bmList');
-    let bookmarks = JSON.parse(localStorage.getItem('nf_bookmarks')||'[]');
-    function saveBookmarks(){ localStorage.setItem('nf_bookmarks', JSON.stringify(bookmarks)); }
-    function renderBookmarks(){ bmList.innerHTML='';
-      bookmarks.forEach((b,i)=>{
-        const item = document.createElement('div'); item.className='list-item';
-        const left = document.createElement('div'); left.innerHTML = `<a href="${b.url}" target="_blank" rel="noopener">${b.name}</a><div class="small opacity-75">${b.url}</div>`;
-        const act = document.createElement('div');
-        const visit = document.createElement('button'); visit.className='btn btn-primary btn-sm me-2'; visit.textContent='Visit'; visit.addEventListener('click', ()=> window.open(b.url, '_blank'));
-        const del = document.createElement('button'); del.className='btn btn-danger btn-sm'; del.textContent='Delete'; del.addEventListener('click', ()=>{ bookmarks.splice(i,1); saveBookmarks(); renderBookmarks(); });
-        act.appendChild(visit); act.appendChild(del); item.appendChild(left); item.appendChild(act); bmList.appendChild(item);
+      // ---------- To‑Do List (localStorage + stats) ----------
+      const todoInput = $("#todoInput");
+      const addTodoBtn = $("#addTodo");
+      const todoList = $("#todoList");
+      let todos = JSON.parse(localStorage.getItem("nf_todos") || "[]");
+      function saveTodos() {
+        localStorage.setItem("nf_todos", JSON.stringify(todos));
+      }
+      function renderTodos() {
+        todoList.innerHTML = "";
+        todos.forEach((t, i) => {
+          const row = document.createElement("div");
+          row.className = "list-item" + (t.completed ? " completed" : "");
+          row.innerHTML = `<div class="form-check m-0"><input class="form-check-input" type="checkbox" ${
+            t.completed ? "checked" : ""
+          }></div><div class="flex-grow-1">${t.text}</div>`;
+          const del = document.createElement("button");
+          del.className = "btn btn-danger btn-sm";
+          del.innerHTML = '<i class="fa-solid fa-trash"></i>';
+          row.appendChild(del);
+          todoList.appendChild(row);
+          row.querySelector("input").addEventListener("change", (e) => {
+            const prev = t.completed;
+            t.completed = e.target.checked;
+            saveTodos();
+            row.classList.toggle("completed", t.completed);
+            if (!prev && t.completed) {
+              const st = statsToday();
+              st.tasks++;
+              saveStats();
+            }
+          });
+          del.addEventListener("click", () => {
+            todos.splice(i, 1);
+            saveTodos();
+            renderTodos();
+          });
+        });
+      }
+      addTodoBtn.addEventListener("click", () => {
+        const v = (todoInput.value || "").trim();
+        if (!v) return;
+        todos.push({ text: v, completed: false });
+        todoInput.value = "";
+        saveTodos();
+        renderTodos();
       });
-    }
-    function addBookmark(){
-      const name = (bmName.value||'').trim(); let url = (bmUrl.value||'').trim();
-      if(!name || !url){ showNote('Enter both name and URL.'); return; }
-      if(!/^https?:\/\//i.test(url)) url = 'https://'+url; // add scheme if missing
-      try{ new URL(url); }catch{ showNote('Please enter a valid URL.'); return; }
-      bookmarks.push({name, url}); bmName.value=''; bmUrl.value=''; saveBookmarks(); renderBookmarks();
-    }
-    addBm.addEventListener('click', addBookmark); bmUrl.addEventListener('keydown', e=>{ if(e.key==='Enter') addBookmark(); }); renderBookmarks();
-
-    // ---------- Planner (localStorage map by date) ----------
-    const planText = $('#planText'); const planDate = $('#planDate'); const addPlanBtn = $('#addPlan'); const planList = $('#planList');
-    let planMap = JSON.parse(localStorage.getItem('nf_plans')||'{}');
-    const fmt = (d)=> new Date(d).toISOString().slice(0,10);
-    planDate.value = fmt(new Date());
-
-    function savePlans(){ localStorage.setItem('nf_plans', JSON.stringify(planMap)); }
-    function renderPlans(){
-      const k = fmt(planDate.value || new Date());
-      planList.innerHTML = '';
-      (planMap[k]||[]).forEach((p,i)=>{
-        const row = document.createElement('div'); row.className='list-item';
-        row.innerHTML = `<div class="flex-grow-1">${p.text}</div>`;
-        const del = document.createElement('button'); del.className='btn btn-danger btn-sm'; del.textContent='Delete';
-        del.addEventListener('click', ()=>{ planMap[k].splice(i,1); if(planMap[k].length===0) delete planMap[k]; savePlans(); renderPlans(); });
-        row.appendChild(del); planList.appendChild(row);
+      todoInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          addTodoBtn.click();
+        }
       });
-    }
-    addPlanBtn.addEventListener('click', ()=>{ const text=(planText.value||'').trim(); const k=fmt(planDate.value||new Date()); if(!text){return;} if(!planMap[k]) planMap[k]=[]; planMap[k].push({ text, created: Date.now() }); planText.value=''; savePlans(); renderPlans(); });
-    planDate.addEventListener('change', renderPlans); renderPlans();
+      renderTodos();
 
-    $('#downloadPlan').addEventListener('click', ()=>{
-      const k = fmt(planDate.value||new Date()); const items = planMap[k]||[]; if(items.length===0){ showNote('No plan items for selected date.'); return; }
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF(); const margin=14; const maxW=doc.internal.pageSize.getWidth()-2*margin; let y=margin;
-      doc.setFontSize(16); doc.text(`Daily Plan — ${k}`, margin, y); y+=8; doc.setFontSize(12);
-      items.forEach((p,idx)=>{ const line = `${idx+1}. ${p.text}`; const lines = doc.splitTextToSize(line, maxW); lines.forEach(l=>{ if(y>doc.internal.pageSize.getHeight()-margin){ doc.addPage(); y=margin; } doc.text(l, margin, y); y+=7; }); });
-      doc.save(`Plan_${k}.pdf`);
-    });
+      // ---------- Bookmarks (localStorage) ----------
+      const bmName = $("#bmName");
+      const bmUrl = $("#bmUrl");
+      const addBm = $("#addBm");
+      const bmList = $("#bmList");
+      let bookmarks = JSON.parse(localStorage.getItem("nf_bookmarks") || "[]");
+      function saveBookmarks() {
+        localStorage.setItem("nf_bookmarks", JSON.stringify(bookmarks));
+      }
+      function renderBookmarks() {
+        bmList.innerHTML = "";
+        bookmarks.forEach((b, i) => {
+          const item = document.createElement("div");
+          item.className = "list-item";
+          const left = document.createElement("div");
+          left.innerHTML = `<a href="${b.url}" target="_blank" rel="noopener">${b.name}</a><div class="small opacity-75">${b.url}</div>`;
+          const act = document.createElement("div");
+          const visit = document.createElement("button");
+          visit.className = "btn btn-primary btn-sm me-2";
+          visit.textContent = "Visit";
+          visit.addEventListener("click", () => window.open(b.url, "_blank"));
+          const del = document.createElement("button");
+          del.className = "btn btn-danger btn-sm";
+          del.textContent = "Delete";
+          del.addEventListener("click", () => {
+            bookmarks.splice(i, 1);
+            saveBookmarks();
+            renderBookmarks();
+          });
+          act.appendChild(visit);
+          act.appendChild(del);
+          item.appendChild(left);
+          item.appendChild(act);
+          bmList.appendChild(item);
+        });
+      }
+      function addBookmark() {
+        const name = (bmName.value || "").trim();
+        let url = (bmUrl.value || "").trim();
+        if (!name || !url) {
+          showNote("Enter both name and URL.");
+          return;
+        }
+        if (!/^https?:\/\//i.test(url)) url = "https://" + url; // add scheme if missing
+        try {
+          new URL(url);
+        } catch {
+          showNote("Please enter a valid URL.");
+          return;
+        }
+        bookmarks.push({ name, url });
+        bmName.value = "";
+        bmUrl.value = "";
+        saveBookmarks();
+        renderBookmarks();
+      }
+      addBm.addEventListener("click", addBookmark);
+      bmUrl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") addBookmark();
+      });
+      renderBookmarks();
 
-    // ---------- Productivity Dashboard (localStorage) ----------
-    const hoursWorked = $('#hoursWorked'); const tasksDone = $('#tasksDone'); const successRate = $('#successRate'); const resetStats = $('#resetStats');
-    function renderStats(){ const st = statsToday(); hoursWorked.textContent = st.hours.toFixed(2); tasksDone.textContent = st.tasks; successRate.textContent = (st.started ? Math.round((st.finished/st.started)*100) : 0)+"%"; }
-    resetStats.addEventListener('click', ()=>{ statMap[todayKey()] = { hours:0, tasks:0, started:0, finished:0 }; saveStats(); showNote('Daily statistics reset.'); });
-    renderStats();
-  </script>
-</body>
+      // ---------- Planner (localStorage map by date) ----------
+      const planText = $("#planText");
+      const planDate = $("#planDate");
+      const addPlanBtn = $("#addPlan");
+      const planList = $("#planList");
+      let planMap = JSON.parse(localStorage.getItem("nf_plans") || "{}");
+      const fmt = (d) => new Date(d).toISOString().slice(0, 10);
+      planDate.value = fmt(new Date());
+
+      function savePlans() {
+        localStorage.setItem("nf_plans", JSON.stringify(planMap));
+      }
+      function renderPlans() {
+        const k = fmt(planDate.value || new Date());
+        planList.innerHTML = "";
+        (planMap[k] || []).forEach((p, i) => {
+          const row = document.createElement("div");
+          row.className = "list-item";
+          row.innerHTML = `<div class="flex-grow-1">${p.text}</div>`;
+          const del = document.createElement("button");
+          del.className = "btn btn-danger btn-sm";
+          del.textContent = "Delete";
+          del.addEventListener("click", () => {
+            planMap[k].splice(i, 1);
+            if (planMap[k].length === 0) delete planMap[k];
+            savePlans();
+            renderPlans();
+          });
+          row.appendChild(del);
+          planList.appendChild(row);
+        });
+      }
+      addPlanBtn.addEventListener("click", () => {
+        const text = (planText.value || "").trim();
+        const k = fmt(planDate.value || new Date());
+        if (!text) {
+          return;
+        }
+        if (!planMap[k]) planMap[k] = [];
+        planMap[k].push({ text, created: Date.now() });
+        planText.value = "";
+        savePlans();
+        renderPlans();
+      });
+      planDate.addEventListener("change", renderPlans);
+      renderPlans();
+
+      $("#downloadPlan").addEventListener("click", () => {
+        const k = fmt(planDate.value || new Date());
+        const items = planMap[k] || [];
+        if (items.length === 0) {
+          showNote("No plan items for selected date.");
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const margin = 14;
+        const maxW = doc.internal.pageSize.getWidth() - 2 * margin;
+        let y = margin;
+        doc.setFontSize(16);
+        doc.text(`Daily Plan — ${k}`, margin, y);
+        y += 8;
+        doc.setFontSize(12);
+        items.forEach((p, idx) => {
+          const line = `${idx + 1}. ${p.text}`;
+          const lines = doc.splitTextToSize(line, maxW);
+          lines.forEach((l) => {
+            if (y > doc.internal.pageSize.getHeight() - margin) {
+              doc.addPage();
+              y = margin;
+            }
+            doc.text(l, margin, y);
+            y += 7;
+          });
+        });
+        doc.save(`Plan_${k}.pdf`);
+      });
+
+      // ---------- Productivity Dashboard (localStorage) ----------
+      const hoursWorked = $("#hoursWorked");
+      const tasksDone = $("#tasksDone");
+      const successRate = $("#successRate");
+      const resetStats = $("#resetStats");
+      function renderStats() {
+        const st = statsToday();
+        hoursWorked.textContent = st.hours.toFixed(2);
+        tasksDone.textContent = st.tasks;
+        successRate.textContent =
+          (st.started ? Math.round((st.finished / st.started) * 100) : 0) + "%";
+      }
+      resetStats.addEventListener("click", () => {
+        statMap[todayKey()] = { hours: 0, tasks: 0, started: 0, finished: 0 };
+        saveStats();
+        showNote("Daily statistics reset.");
+      });
+      renderStats();
+
+      // Clock
+      const mainClock = $("#mainClock");
+      const mainDate = $("#mainDate");
+      const syncClockBtn = $("#syncClock");
+
+      let customTime = JSON.parse(localStorage.getItem('nf_custom_time') || 'null');
+      let clockInterval;
+
+      function updateClock() {
+          let now;
+          if (customTime) {
+              const elapsed = Date.now() - customTime.setAt;
+              now = new Date(customTime.timestamp + elapsed);
+          } else {
+              now = new Date();
+          }
+
+          // Update time display (12-hour format with AM/PM)
+          mainClock.textContent = now.toLocaleTimeString('en-US', {
+              hour12: true,
+              hour: 'numeric',
+              minute: '2-digit',
+              second: '2-digit'
+          });
+
+          // Update date display
+          mainDate.textContent = now.toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+          });
+      }
+
+      function syncClockHandler() {
+          customTime = null;
+          localStorage.removeItem('nf_custom_time');
+          updateClock();
+          showNote('Clock synchronized with system time');
+      }
+
+      // Initialize clock
+      (function() {
+          updateClock();
+          clockInterval = setInterval(updateClock, 1000);
+          syncClockBtn.addEventListener('click', syncClockHandler);
+      })();
+    </script>
+  </body>
+</html>
+<script>
+      const digitalDate = $("#digitalDate");
+      const editClockBtn = $("#editClock");
+      const syncClockBtn = $("#syncClock");
+
+      let customTime = JSON.parse(
+        localStorage.getItem("nf_custom_time") || "null"
+      );
+      let clockInterval;
+
+      function updateClock() {
+        let now;
+        if (customTime) {
+          // Use custom time with offset from when it was set
+          const elapsed = Date.now() - customTime.setAt;
+          now = new Date(customTime.timestamp + elapsed);
+        } else {
+          now = new Date();
+        }
+
+        // Update time display (12-hour)
+        digitalTime.textContent = now.toLocaleTimeString("en-US", {
+          hour12: true,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+
+        // Update date display
+        digitalDate.textContent = now.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      function editClockHandler() {
+        // Create and show modal for time editing
+        const modal = new bootstrap.Modal(`
+          <div class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content p-4" style="background: var(--tool-card-bg); border: 1px solid var(--tool-card-border);">
+                <h5 class="mb-3">Set Custom Time</h5>
+                <input type="datetime-local" id="customDateTime" class="form-control input-field mb-3">
+                <div class="d-flex gap-2">
+                  <button class="btn btn-primary" id="saveTime">Save</button>
+                  <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `);
+
+        const dateTimeInput = modal.querySelector("#customDateTime");
+        const now = customTime ? new Date(customTime.timestamp) : new Date();
+        dateTimeInput.value = now.toISOString().slice(0, 16);
+
+        modal.querySelector("#saveTime").addEventListener("click", () => {
+          const newDate = new Date(dateTimeInput.value);
+          customTime = {
+            timestamp: newDate.getTime(),
+            setAt: Date.now(),
+          };
+          localStorage.setItem("nf_custom_time", JSON.stringify(customTime));
+          updateClock();
+          modal.hide();
+        });
+
+        modal.show();
+      }
+
+      function syncClockHandler() {
+        customTime = null;
+        localStorage.removeItem("nf_custom_time");
+        updateClock();
+        showNote("Clock synchronized with system time");
+      }
+
+      // Initialize clock
+      (function () {
+        updateClock();
+        clockInterval = setInterval(updateClock, 1000);
+        editClockBtn.addEventListener("click", editClockHandler);
+        syncClockBtn.addEventListener("click", syncClockHandler);
+      })();
+    </script>
+  </body>
+</html>
+          modal.hide();
+        });
+
+        modal.show();
+      }
+
+      function syncClockHandler() {
+        customTime = null;
+        localStorage.removeItem("nf_custom_time");
+        updateClock();
+        showNote("Clock synchronized with system time");
+      }
+
+      // Initialize clock
+      (function () {
+        updateClock();
+        clockInterval = setInterval(updateClock, 1000);
+        editClockBtn.addEventListener("click", editClockHandler);
+        syncClockBtn.addEventListener("click", syncClockHandler);
+      })();
+    </script>
+    
+  </body>
 </html>
