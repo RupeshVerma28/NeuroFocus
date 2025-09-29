@@ -755,7 +755,7 @@
       const customS = $("#customSeconds");
       const setCustomBtn = $("#setCustom");
       // ADDITION: Create an Audio object for the timer sound
-      const timerEndSound = new Audio("audio/timeout.wav");
+      const timerEndSound = new Audio("Audio/timeout.wav");
 
       const MODES = { work: 25 * 60, short: 5 * 60, long: 15 * 60 };
 
@@ -1402,118 +1402,5 @@
           syncClockBtn.addEventListener('click', syncClockHandler);
       })();
     </script>
-  </body>
-</html>
-<script>
-      const digitalDate = $("#digitalDate");
-      const editClockBtn = $("#editClock");
-      const syncClockBtn = $("#syncClock");
-
-      let customTime = JSON.parse(
-        localStorage.getItem("nf_custom_time") || "null"
-      );
-      let clockInterval;
-
-      function updateClock() {
-        let now;
-        if (customTime) {
-          // Use custom time with offset from when it was set
-          const elapsed = Date.now() - customTime.setAt;
-          now = new Date(customTime.timestamp + elapsed);
-        } else {
-          now = new Date();
-        }
-
-        // Update time display (12-hour)
-        digitalTime.textContent = now.toLocaleTimeString("en-US", {
-          hour12: true,
-          hour: "numeric",
-          minute: "2-digit",
-          second: "2-digit",
-        });
-
-        // Update date display
-        digitalDate.textContent = now.toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-      }
-
-      function editClockHandler() {
-        // Create and show modal for time editing
-        const modal = new bootstrap.Modal(`
-          <div class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content p-4" style="background: var(--tool-card-bg); border: 1px solid var(--tool-card-border);">
-                <h5 class="mb-3">Set Custom Time</h5>
-                <input type="datetime-local" id="customDateTime" class="form-control input-field mb-3">
-                <div class="d-flex gap-2">
-                  <button class="btn btn-primary" id="saveTime">Save</button>
-                  <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `);
-
-        const dateTimeInput = modal.querySelector("#customDateTime");
-        const now = customTime ? new Date(customTime.timestamp) : new Date();
-        dateTimeInput.value = now.toISOString().slice(0, 16);
-
-        modal.querySelector("#saveTime").addEventListener("click", () => {
-          const newDate = new Date(dateTimeInput.value);
-          customTime = {
-            timestamp: newDate.getTime(),
-            setAt: Date.now(),
-          };
-          localStorage.setItem("nf_custom_time", JSON.stringify(customTime));
-          updateClock();
-          modal.hide();
-        });
-
-        modal.show();
-      }
-
-      function syncClockHandler() {
-        customTime = null;
-        localStorage.removeItem("nf_custom_time");
-        updateClock();
-        showNote("Clock synchronized with system time");
-      }
-
-      // Initialize clock
-      (function () {
-        updateClock();
-        clockInterval = setInterval(updateClock, 1000);
-        editClockBtn.addEventListener("click", editClockHandler);
-        syncClockBtn.addEventListener("click", syncClockHandler);
-      })();
-    </script>
-  </body>
-</html>
-          modal.hide();
-        });
-
-        modal.show();
-      }
-
-      function syncClockHandler() {
-        customTime = null;
-        localStorage.removeItem("nf_custom_time");
-        updateClock();
-        showNote("Clock synchronized with system time");
-      }
-
-      // Initialize clock
-      (function () {
-        updateClock();
-        clockInterval = setInterval(updateClock, 1000);
-        editClockBtn.addEventListener("click", editClockHandler);
-        syncClockBtn.addEventListener("click", syncClockHandler);
-      })();
-    </script>
-    
   </body>
 </html>
